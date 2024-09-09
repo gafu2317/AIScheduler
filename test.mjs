@@ -51,7 +51,7 @@ const QueryArgs = z.object({
 async function runQuery() {
     // Initialize the OpenAI client
     const client = new OpenAI({
-        apiKey: 'apiKey', // APIキーを設定
+        apiKey: apiKey, // APIキーを設定
     });
 
     // Call the OpenAI API with query function

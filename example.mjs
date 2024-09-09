@@ -16,13 +16,13 @@ const TaskOutputSchema = z.object({
 });
 
 const apiKey = process.env.CHATGPT_KEY;
-const openai = new OpenAI({ apiKey: apiKey });
+const client = new OpenAI({ apiKey: apiKey });
 
 const predictTaskTime = async (taskInput) => {
   //入力データの検証
   TaskInputSchema.parse(taskInput);
   //OpenAI APIの呼び出し
-  const completion = await openai.chat.completions.create({
+  const completion = await client.beta.chat.completions.parse({
     model: "gpt-4o-mini",
     messages: [
       {

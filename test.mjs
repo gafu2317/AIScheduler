@@ -65,7 +65,8 @@ async function runQuery() {
     });
 
     // Output the parsed arguments for the query function
-    console.log(completion.choices[0].message.tool_calls[0].function.parsed_arguments);
+    console.log("APIレスポンス:", JSON.stringify(completion, null, 2));
+    // console.log(completion.choices[0].message.tool_calls[0].function.parsed_arguments);
 }
 
 // Run the query

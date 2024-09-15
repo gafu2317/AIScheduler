@@ -23,11 +23,11 @@ const taskInputSchema ={
 const taskOutputSchema ={
   type : "object",
   properties : {
-    time : {
+    minutes : {
       type : "number"
     }
   },
-  required : ["time"],
+  required : ["minutes"],
   additionalProperties : false
 }
 

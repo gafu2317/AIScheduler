@@ -7,27 +7,27 @@ const apiKey = process.env.CHATGPT_KEY;
 const client = new OpenAI({ apiKey: apiKey });
 
 // JSONスキーマ
-const taskInputSchema ={
-  type : "object",
-  properties : {
-    title : {
-      type : "string"
-    },
-    description : {
-      type : "string"
-    }
-  },
-  required : ["title","description"],
-  additionalProperties : false
-}
+// const taskInputSchema ={
+//   type : "object",
+//   properties : {
+//     title : {
+//       type : "string"
+//     },
+//     description : {
+//       type : "string"
+//     }
+//   },
+//   required : ["title","description"],
+//   additionalProperties : false
+// }
 const taskOutputSchema ={
   type : "object",
   properties : {
-    time : {
+    minutes : {
       type : "number"
     }
   },
-  required : ["time"],
+  required : ["minutes"],
   additionalProperties : false
 }
 

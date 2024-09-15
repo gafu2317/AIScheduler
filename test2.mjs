@@ -7,7 +7,7 @@ dotenv.config(); //.envの内容を読み込む
 const apiKey = process.env.CHATGPT_KEY;
 const client = new OpenAI({ apiKey: apiKey });
 
-const InputdataSchema ={
+const dataSchema ={
    "type" : "object" ,
    "properties" : {
      taskdate : {
@@ -23,7 +23,7 @@ const InputdataSchema ={
         "type" : "date"
      }
      predictTaskTime : {
-        
+
      }
     } 
 

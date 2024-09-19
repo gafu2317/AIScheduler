@@ -6,71 +6,55 @@ dotenv.config(); //.envの内容を読み込む
 const apiKey = process.env.CHATGPT_KEY;
 const client = new OpenAI({ apiKey: apiKey });
 
-// JSONスキーマ
-const taskOutputSchema = {
+// JSONスキーマを返す関数
+function createSchema(minimumStartMinutes) {
+  return {
   type: "object",
   properties: {
-   Setting:{
-    type:"string",
-    enum:["morning","afternoon"]
-   },
-    if:{
-      properties:{
-        Setting:{
-          const:"morning"
+    tasks: {
+      type: "array",
+      items: {
+        type: "object",
+        properties: {
+          year: {
+            type: "integer",
+          },
+          month: {
+            type: "integer",
+          },
+          day: {
+            type: "integer",
+          },
+          StartMinutes: {
+            type: "integer",
+            minimum: minimumStartMinutes,
+          },
+          EndMinutes: {
+            type: "integer",
+          },
         },
-      },
-    },
-    then:{
-    year: {
-      type: "integer",
-    },
-    month: {
-      type: "integer",
-    },
-    day: {
-      type: "integer",
-    },
-    StartMinutes: {
-      type: "integer",
-      minimum:420,
-  
-    },
-    EndMinutes: {
-      type: "integer",
-    },    
+        required: ["year", "month", "day", "StartMinutes", "EndMinutes"],
+        additionalProperties: false,
+      }
+    }
   },
-  required: ["year", "month", "day", "StartMinutes", "EndMinutes","Setting"],
+  required: ["tasks"],
   additionalProperties: false,
-},
-if:{
-  properties:{
-    Setting:{
-      const:"afternoon"
-    },
-  },
-},  
-  then:{
-    year: {
-    type: "integer",
-  },
-  month: {
-    type: "integer",
-  },
-  day: {
-    type: "integer",
-  },
-  StartMinutes: {
-    type: "integer",
-    minimum:780,
+  };
+}
 
-  },
-  EndMinutes: {
-    type: "integer",
-  },    
-  required: ["year", "month", "day", "StartMinutes", "EndMinutes","Setting"],
-  additionalProperties: false,
-  },
+// 例: 420をminimumに設定
+const morningSchema = createSchema(420);
+
+// 例: 780をminimumに設定
+const afternoonSchema = createSchema(780);
+
+console.log(morningSchema);
+console.log(afternoonSchema);
+
+// 予定のスキーマ
+const taskOutputSchema = createSchema(420);
+
   
 const predictTaskTime = async (taskInput) => {
   //OpenAI APIの呼び出し

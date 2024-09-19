@@ -34,10 +34,10 @@ const taskInput = {
   description: "プロジェクトの初期計画を立てる。",
   deadline: {
     year: 2024,
-    month: 9,
+    month: 10,
     day: 15,
   },
-  taskDuration: 720, 
+  taskDuration: 60, 
 };
 
 //スケジュールがいくつあるか分からないので、map関数を使って文字列に変換

@@ -10,6 +10,18 @@ const client = new OpenAI({ apiKey: apiKey });
 const taskOutputSchema = {
   type: "object",
   properties: {
+   Setting:{
+    type:"string",
+    enum:["morning","afternoon"]
+   },
+    if:{
+      properties:{
+        Setting:{
+          const:"morning"
+        },
+      },
+    },
+    then:{
     year: {
       type: "integer",
     },
@@ -21,15 +33,45 @@ const taskOutputSchema = {
     },
     StartMinutes: {
       type: "integer",
+      minimum:420,
+  
     },
     EndMinutes: {
       type: "integer",
+    },    
+  },
+  required: ["year", "month", "day", "StartMinutes", "EndMinutes","Setting"],
+  additionalProperties: false,
+},
+if:{
+  properties:{
+    Setting:{
+      const:"afternoon"
     },
   },
-  required: ["year", "month", "day", "StartMinutes", "EndMinutes"],
-  additionalProperties: false,
-};
+},  
+  then:{
+    year: {
+    type: "integer",
+  },
+  month: {
+    type: "integer",
+  },
+  day: {
+    type: "integer",
+  },
+  StartMinutes: {
+    type: "integer",
+    minimum:780,
 
+  },
+  EndMinutes: {
+    type: "integer",
+  },    
+  required: ["year", "month", "day", "StartMinutes", "EndMinutes","Setting"],
+  additionalProperties: false,
+  },
+  
 const predictTaskTime = async (taskInput) => {
   //OpenAI APIの呼び出し
   const completion = await client.beta.chat.completions.parse({
@@ -41,7 +83,7 @@ const predictTaskTime = async (taskInput) => {
       },
       {
         role: "user",
-        content: `Please allocate the task:${taskInput.title}, ${taskInput.description}, ${taskInput.taskDuration} on days without any scheduled plans from today's date:${taskInput.year}/${taskInput.month}/${taskInput.day} to the deadline:${taskInput.deadline.year}/${taskInput.deadline.month}/${taskInput.deadline.day} . It is not necessary to complete it in a single day.`,
+        content: `Please allocate the task:${taskInput.title}, ${taskInput.description},  on days without any scheduled plans from today's date:${taskInput.year}/${taskInput.month}/${taskInput.day} to the deadline:${taskInput.deadline.year}/${taskInput.deadline.month}/${taskInput.deadline.day} . It is not necessary to complete it in a single day.`,
       },
     ],
     response_format: {
@@ -86,6 +128,6 @@ const taskInput = {
     day: 15,
   },
   taskDuration: 120, // 2時間
-};
+},
 
 predictTaskTime(taskInput);

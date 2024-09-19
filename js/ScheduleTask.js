@@ -49,9 +49,6 @@ const morningSchema = createSchema(420);
 // 例: 780をminimumに設定
 const afternoonSchema = createSchema(780);
 
-console.log(morningSchema);
-console.log(afternoonSchema);
-
 // 予定のスキーマ
 const taskOutputSchema = createSchema(420);
 

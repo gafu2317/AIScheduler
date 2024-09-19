@@ -112,6 +112,6 @@ const taskInput = {
     day: 15,
   },
   taskDuration: 120, // 2時間
-},
+};
 
 predictTaskTime(taskInput);

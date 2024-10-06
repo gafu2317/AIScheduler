@@ -4,10 +4,31 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>AIScheduler</title>
+    <style>
+     #calendar-container {
+      display: flex;
+      justify-content: space-between; /* カレンダーの間にスペースを入れる */
+      gap: 20px; /* カレンダーの間のギャップ */
+    }
+
+    /* カレンダーのサイズを調整 */
+    #calendar-day {
+      width: 40%; /* 各カレンダーの幅を調整 */
+    }
+    #calendar-month{
+      width: 50%;
+    }
+  </style>
   </head>
   <body>
     <div id="app"></div>
     <script type="module" src="/test.js"></script>
+    <script type="module" src="/calendar.js"></script>
     <button id="addCityBtn">Add City</button>
+    <div id="calendar-container">
+      <div id="calendar-day"></div>
+      <div id="calendar-month"></div>   
+    </div>
+
   </body>
 </html>

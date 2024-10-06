@@ -18,14 +18,14 @@ document.getElementById("addCityBtn").addEventListener("click", async () => {
 
   try {
     // Firestoreにドキュメントを追加
-    await setDoc(doc(citiesRef, "DC"), {
-      name: "Washington, D.C.",
-      state: null,
-      country: "USA",
-      capital: true,
-      population: 680000,
-      regions: ["east_coast"],
-    });
+    // await setDoc(doc(citiesRef, "DC"), {
+    //   name: "Washington, D.C.",
+    //   state: null,
+    //   country: "USA",xx
+    //   capital: true,
+    //   population: 680000,
+    //   regions: ["east_coast"],
+    // });
 
     // データの取得（１個）
     console.log("Document successfully written!");
@@ -40,7 +40,7 @@ document.getElementById("addCityBtn").addEventListener("click", async () => {
     }
 
     // データの取得（複数）
-    const q = query(collection(db, "sakurasaku"), where("capital", "==", true));
+    const q = query(collection(db, "userid"));
 
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {

@@ -23,6 +23,43 @@ signOut,
 // addBtnボタンクリック時のイベント処理
 // document.getElementById("addBtn").addEventListener("click", async () => {
 
+
+// ボタンクリック時のイベント処理
+document.getElementById("addCityBtn").addEventListener("click", async () => {
+  // データの追加
+  const citiesRef = collection(db, "sakurasaku");
+
+  try {
+    // Firestoreにドキュメントを追加
+    // await setDoc(doc(citiesRef, "DC"), {
+    //   name: "Washington, D.C.",
+    //   state: null,
+    //   country: "USA",xx
+    //   capital: true,
+    //   population: 680000,
+    //   regions: ["east_coast"],
+    // });
+
+    // データの取得（１個）
+    console.log("Document successfully written!");
+    const docRef = doc(db, "sakurasaku", "SF");
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+      console.log("Document data:", docSnap.data());
+    } else {
+      // docSnap.data() will be undefined in this case
+      console.log("No such document!");
+    }
+
+    // データの取得（複数）
+    const q = query(collection(db, "userid"));
+
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      // doc.data() is never undefined for query doc snapshots
+      console.log(doc.id, " => ", doc.data());
+
 //   //▼以下コレクションを作成する工程
 
 //   // コレクションにドキュメントを追加する関数
@@ -230,6 +267,7 @@ document.getElementById("sign-in-button").addEventListener("click", async () => 
       
       // エラーメッセージの表示
       console.error('Error during sign-in:', errorCode, errorMessage, email);
+
     });
 });
 

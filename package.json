@@ -12,6 +12,10 @@
     "vite": "^5.4.1"
   },
   "dependencies": {
+    "@fullcalendar/core": "^6.1.15",
+    "@fullcalendar/daygrid": "^6.1.15",
+    "@fullcalendar/list": "^6.1.15",
+    "@fullcalendar/timegrid": "^6.1.15",
     "dotenv": "^16.4.5",
     "firebase": "^10.13.1",
     "openai": "^4.57.0"

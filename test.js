@@ -1,4 +1,4 @@
-import { db } from "./fire";
+import { db, auth, provider } from "./fire.js";
 import {
   collection,
   doc,
@@ -229,7 +229,7 @@ document.getElementById("addCityBtn").addEventListener("click", async () => {
 // chatgpt版
 
 // Googleプロバイダオブジェクトのインスタンス構築
-const provider = new GoogleAuthProvider();
+//const provider = new GoogleAuthProvider();
 
 // 認証プロバイダにリクエストする追加の OAuth 2.0 スコープを指定
 provider.addScope("https://www.googleapis.com/auth/contacts.readonly");
@@ -238,7 +238,7 @@ provider.addScope("https://www.googleapis.com/auth/contacts.readonly");
 document
   .getElementById("sign-in-button")
   .addEventListener("click", async () => {
-    const auth = getAuth();
+    //const auth = getAuth();
 
     signInWithPopup(auth, provider)
       .then((result) => {

@@ -34,7 +34,7 @@ popupWrapper.addEventListener('click', e => {
 //   }
 //  });
 
-colorPopupWrapper.addEventListener('click',function(e){
+taskColor.addEventListener('click',function(e){
   if(e.target.id === colorPopupWrapper.id  || e.target.id === colorClose.id){
     colorPopupWrapper.style.visibility = 'hidden';
   }
@@ -45,5 +45,6 @@ Button.addEventListener('click',function(){
   const inputValue = document.getElementById('tasktitle').value;
   alert(inputValue);
 });
+
 
 

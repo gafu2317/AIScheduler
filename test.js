@@ -1,4 +1,4 @@
-import { db } from "./fire";
+import { db, auth, provider } from "./fire.js";
 import {
   collection,
   doc,
@@ -22,7 +22,7 @@ import {
 } from "firebase/auth";
 
 // Googleプロバイダオブジェクトのインスタンス構築
-const provider = new GoogleAuthProvider();
+//const provider = new GoogleAuthProvider();
 
 // 認証プロバイダにリクエストする追加の OAuth 2.0 スコープを指定
 provider.addScope("https://www.googleapis.com/auth/contacts.readonly");
@@ -31,7 +31,8 @@ provider.addScope("https://www.googleapis.com/auth/contacts.readonly");
 document
   .getElementById("sign-in-button")
   .addEventListener("click", async () => {
-    const auth = getAuth();
+    //const auth = getAuth();
+
     signInWithPopup(auth, provider)
       .then((result) => {
         // Google Access Tokenの取得。Google APIにアクセスするために使用できる。

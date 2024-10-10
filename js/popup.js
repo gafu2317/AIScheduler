@@ -34,8 +34,9 @@ taskColor.addEventListener('click',function(e){
   }
 });
 
-function changeColor(Color){
-  taskColor.style.color = Color
-}
 
-
+document.querySelectorAll('circles').forEach(box => {
+  box.onclick = () => {
+      taskColor.style.color = box.datastyle.color
+  };
+});

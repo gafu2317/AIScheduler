@@ -37,6 +37,6 @@ taskColor.addEventListener('click',function(e){
 
 document.querySelectorAll('circles').forEach(box => {
   box.onclick = () => {
-      taskColor.style.color = box.datastyle.color
+      taskColor.style.backgroundColor = box.dataset.color
   };
 });

@@ -1,12 +1,77 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ja">
   <head>
     <meta charset="UTF-8" />
+    <link rel="stylesheet" href="./style.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>AIScheduler</title>
   </head>
   <body>
-    <div id="app"></div>
-    <script type="module" src="/main.js"></script>
+    <button id="clickBtn">クリック！</button>
+    <div id="popupWrapper">
+      <div id="popupInside">
+        <div id="close">x</div>
+        <div id="inputContainer">
+          <input
+            type="text"
+            id="tasktitle"
+            placeholder="タスクのタイトルを入力"
+          />
+          <textarea
+            id="taskDiscripition"
+            placeholder="タスクの詳細を入力"
+          ></textarea>
+        </div>
+        <div id="optionContainer">
+          <input
+            type="text"
+            id="taskTime"
+            placeholder="タスクにかかる時間を入力"
+          />
+          <input type="date" id="taskDate" />
+
+          <div id="taskColor">
+            <div id="colorPopupWrapper">
+              <div id="colorPopupInside">
+                
+                  <div id="circleContainer">
+                    <div id="circleUpperLow">
+                      <div id="circleRed" class="circles"></div>
+                    
+                      <div id="circleBlue" class="circles"></div>
+                      <div id="circleYellow" class="circles"></div>
+                      <div id="circleGreen" class="circles"></div>
+                      <div id="circleOrange" class="circles"></div>
+                    </div>
+                    <div id="circleLowerLow">
+                       <div id="circlePurple" class="circles"></div>
+                       <div id="circlePink" class="circles"></div>
+                       <div id="circleBrown" class="circles"></div>
+                       <div id="circleCyan" class="circles"></div>
+                       <div id="circleMagenta" class="circles"></div>
+                       
+                      
+
+                    </div>
+                  
+
+                  </div>
+              
+                <div id="colorClose">x</div>
+              
+            </div>
+          </div>
+          
+        </div>
+        <div id="taskLocation">
+          <img src="public/img/場所のアイコン.jpg" alt="場所のアイコン" />
+        </div>
+
+      </div>
+      <button id="Button">タスクを追加</button>
+    </div>
+
+    <script type="module" src="js/main.js"></script>
+    <script type="module" src="js/popup.js"></script>
   </body>
 </html>

@@ -35,8 +35,7 @@ const taskInput = {
     month: 10,
     day: 15,
   },
-  taskDuration: 60,
-  noTaskUntilMimutes: 900, 
+  taskDuration: 600, 
 };
 
 //スケジュールがいくつあるか分からないので、map関数を使って文字列に変換

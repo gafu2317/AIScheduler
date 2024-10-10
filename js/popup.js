@@ -6,6 +6,7 @@ const taskColor = document.getElementById('taskColor');
 const colorPopupWrapper = document.getElementById('colorPopupWrapper');
 const colorClose = document.getElementById('colorClose');
 const colorPopupInside = document.getElementById('colorPopupInside')
+const circles = document.getElementsByClassName('circles');
 
 // ボタンをクリックしたときにポップアップを表示させる
 clickBtn.addEventListener('click', () => {
@@ -34,9 +35,11 @@ taskColor.addEventListener('click',function(e){
   }
 });
 
-
-document.querySelectorAll('circles').forEach(box => {
-  box.onclick = () => {
-      taskColor.style.backgroundColor = box.dataset.color
-  };
+// １０色の色のdivタグをクリックしたときに色を変更する
+document.querySelectorAll('.circles').forEach(circles => {
+  circles.addEventListener('click', () => {
+    taskColor.style.backgroundColor = circles.dataset.color;
+  });
 });
+
+

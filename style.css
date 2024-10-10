@@ -120,96 +120,53 @@
   display: flex;
 }
 
-#circles {
-  margin: 200px;
+.circles {
+  margin: 30px;
+  width: 30px;
+  height: 30px;
+
+  border-radius: 50%;
+  margin-left: 20px;
+  margin-top: 5px;
+  justify-content: space-evenly;
 }
 
 #circleRed {
-  width: 20px;
-  height: 20px;
   background-color: red;
-  border-radius: 50%;
-  margin-left: 20px;
-  margin-top: 10px;
 }
 
 #circleBlue {
-  width: 20px;
-  height: 20px;
   background-color: blue;
-  border-radius: 50%;
-  margin-left: 20px;
-  margin-top: 10px;
 }
 
 #circleYellow {
-  width: 20px;
-  height: 20px;
   background-color: yellow;
-  border-radius: 50%;
-  margin-left: 20px;
-  margin-top: 10px;
 }
 
 #circleGreen {
-  width: 20px;
-  height: 20px;
   background-color: green;
-  border-radius: 50%;
-  margin-left: 20px;
-  margin-top: 10px;
 }
 
 #circleOrange {
-  width: 20px;
-  height: 20px;
   background-color: orange;
-  border-radius: 50%;
-  margin-left: 20px;
-  margin-top: 10px;
 }
 
 #circlePurple {
-  width: 20px;
-  height: 20px;
-  background-color: orange;
-  border-radius: 50%;
-  margin-left: 20px;
-  margin-top: 10px;
+  background-color: purple;
 }
 
 #circlePink {
-  width: 20px;
-  height: 20px;
   background-color: pink;
-  border-radius: 50%;
-  margin-left: 20px;
-  margin-top: 10px;
 }
 
 #circleBrown {
-  width: 20px;
-  height: 20px;
-  background-color: pink;
-  border-radius: 50%;
-  margin-left: 20px;
-  margin-top: 10px;
+  background-color: brown;
 }
 
-#circleCyan{
-  width: 20px;
-  height: 20px;
-  background-color:cyan;
-  border-radius: 50%;
-  margin-left: 20px;
-  margin-top: 10px;
+#circleCyan {
+  background-color: cyan;
 }
 
-#circleMagenta{
-  width: 20px;
-  height: 20px;
-  background-color:magenta;
-  border-radius: 50%;
-  margin-left: 20px;
-  margin-top: 10px;
+#circleMagenta {
+  background-color: magenta;
 }

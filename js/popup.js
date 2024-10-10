@@ -5,6 +5,7 @@ const Button = document.getElementById('Button');
 const taskColor = document.getElementById('taskColor');
 const colorPopupWrapper = document.getElementById('colorPopupWrapper');
 const colorClose = document.getElementById('colorClose');
+const colorPopupInside = document.getElementById('colorPopupInside')
 // ボタンをクリックしたときにポップアップを表示させる
 clickBtn.addEventListener('click', () => {
   popupWrapper.style.display = "block";
@@ -46,5 +47,5 @@ Button.addEventListener('click',function(){
   alert(inputValue);
 });
 
-
+colorPopupInside.addEventListener
 

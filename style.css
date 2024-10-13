@@ -86,6 +86,12 @@
   cursor: pointer;
 }
 
+#inputContainer {
+  text-align: center;
+  height: 75%;
+  
+}
+
 #taskTitle {
   width: 90%;
   margin: 10px;
@@ -93,21 +99,21 @@
 
 #inputContainer {
   text-align: center;
-  height: 60%;
+  height: 80%;
   
 }
 
 #taskDiscription {
-  height: 80%;
+  height: 85%;
   width: 90%;
-  margin: 10px;
+  margin-top: 10px;
 }
 
 #taskDateDiscription{
   display: inline;
-  margin-left: 200px;
+  margin-left: 180px;
   color: gray;
-  font-size: 15px;
+  font-size: 11px;
 }
 
 #taskTime {

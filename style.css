@@ -44,6 +44,7 @@
   margin: 10% auto;
   padding: 20px;
   position: relative;
+  border-radius: 10px;
 }
 
 #colorPopupInside {
@@ -58,6 +59,7 @@
   padding: 20px;
   position: relative;
   position :30px;
+  border-radius: 10px;
 }
 
 #close {

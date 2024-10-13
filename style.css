@@ -94,12 +94,20 @@
 #inputContainer {
   text-align: center;
   height: 80%;
+  
 }
 
 #taskDiscription {
   height: 80%;
   width: 90%;
   margin: 10px;
+}
+
+#taskDateDiscription{
+  display: inline;
+  margin-left: 200px;
+  color: gray;
+  font-size: 15px;
 }
 
 #taskTime {

@@ -2,6 +2,10 @@ const clickBtn = document.getElementById('clickBtn');
 const popupWrapper = document.getElementById('popupWrapper');
 const close = document.getElementById('close');
 const Button = document.getElementById('Button');
+const taskTitle = document.getElementById('taskTitle')
+const taskDiscripition = document.getElementById('taskDiscription')
+const taskTime = document.getElementById('taskTime')
+const taskDate = document.getElementById('taskDate')
 const taskColor = document.getElementById('taskColor');
 const colorPopupWrapper = document.getElementById('colorPopupWrapper');
 const colorClose = document.getElementById('colorClose');
@@ -42,4 +46,8 @@ document.querySelectorAll('.circles').forEach(circles => {
   });
 });
 
+//テストコード
+Button.addEventListener('click', () => {
+  alert(`タイトル: ${taskTitle.value}\n詳細: ${taskDiscription.value}\n時間: ${taskTime.value}\n日付: ${taskDate.value}`); 
+});
 

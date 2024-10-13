@@ -86,7 +86,7 @@
   cursor: pointer;
 }
 
-#tasktitle {
+#taskTitle {
   width: 90%;
   margin: 10px;
 }
@@ -96,7 +96,7 @@
   height: 80%;
 }
 
-#taskDiscripition {
+#taskDiscription {
   height: 80%;
   width: 90%;
   margin: 10px;

@@ -48,30 +48,27 @@ document.querySelectorAll('.circles').forEach(circles => {
   });
 });
 
-const today =  new Date();
-const year = today.getFullYear();
-const month = today.getMonth() +1;
-const day = today.getDay();
-const taskYear = taskDate.getFullYear();
-const taskMonth = taskDate.getMonth()+1;
-const taskDay = taskDate.getDay();
 
 
-const taskToday = {
-  year: year,
-  month: month,
-  day: day,
-  title: taskTitle,
-  description: taskDiscripition,
-  deadline: {
-    year: taskYear,
-    month: taskMonth,
-    day: taskDay,
-  },
-  taskDuration: taskTime, 
-};
+
+
+
 const scheduleVariable = function(){
-  taskInput = taskToday
+  const taskInput ={
+    const: today =  new Date(),
+    year : today.getFullYear(),
+    month : today.getMonth()+1,
+    day: today.getDay(),
+    title: taskTitle,
+    deadline:{
+     year:taskDate.getFullYear(),
+     month:taskDate.getMonth()+1,
+     day:taskDate.getDay(),
+    },
+    taskDuration:taskTime
+    }
+  
+  taskInput
 }
 //テストコード
 /*Button.addEventListener('click', () => {

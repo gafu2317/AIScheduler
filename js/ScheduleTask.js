@@ -24,7 +24,7 @@ const client = new OpenAI({ apiKey: apiKey });
 };*/
 
 //  他の日の予定
-const OtherSchedule = {
+/*const OtherSchedule = {
   schedule: [
     {
       year: 2024,
@@ -42,7 +42,7 @@ const OtherSchedule = {
     },
     // その他の予定が続く
   ],
-};
+};*/
 
 //スケジュールがいくつあるか分からないので、map関数を使って文字列に変換
 const scheduleString = OtherSchedule.schedule

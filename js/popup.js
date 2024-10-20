@@ -54,8 +54,8 @@ document.querySelectorAll('.circles').forEach(circles => {
 
 
 const scheduleVariable = function(){
+  const today =  new Date()
   const taskInput ={
-    const: today =  new Date(),
     year : today.getFullYear(),
     month : today.getMonth()+1,
     day: today.getDay(),

@@ -47,7 +47,7 @@ document.querySelectorAll('.circles').forEach(circles => {
 });
 
 //テストコード
-Button.addEventListener('click', () => {
+/*Button.addEventListener('click', () => {
   alert(`タイトル: ${taskTitle.value}\n詳細: ${taskDiscription.value}\n時間: ${taskTime.value}\n日付: ${taskDate.value}`); 
-});
+});*/
 

@@ -38,6 +38,17 @@
   display: none;
 }
 
+#locationPopupWrapper {
+  background-color: rgba(0, 0, 0, 0.5);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: none;
+}
+
+
 #popupInside {
   width: 100%;
   height: 500px;
@@ -63,6 +74,26 @@
   position: relative;
   position :30px;
   border-radius: 10px;
+}
+
+#locationPopupInside {
+  width: 100%;
+  height: 240px;
+  max-width: 320px;
+
+  background: white;
+  margin: 30% auto;
+  padding: 10px;
+  position: relative;
+  border-radius: 6px;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+#location{
+  width: 80%;
+  height: 60%;
+  
 }
 
 #close {

@@ -1,3 +1,1 @@
 # AIScheduler
-gitdayo
-test

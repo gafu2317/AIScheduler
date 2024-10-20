@@ -11,6 +11,23 @@ const colorPopupWrapper = document.getElementById('colorPopupWrapper');
 const colorClose = document.getElementById('colorClose');
 const colorPopupInside = document.getElementById('colorPopupInside')
 const circles = document.getElementsByClassName('circles');
+const today =  new Date();
+const year = today.getFullYear();
+const month = today.getMonth() +1;
+const day = today.getDay();
+const taskToday = {
+  year: year,
+  month: month,
+  day: day,
+  title: taskTitle,
+  description: taskDiscripition,
+  deadline: {
+    year: 2024,
+    month: 10,
+    day: 15,
+  },
+  taskDuration: 600, 
+};
 
 // ボタンをクリックしたときにポップアップを表示させる
 clickBtn.addEventListener('click', () => {
@@ -48,9 +65,9 @@ document.querySelectorAll('.circles').forEach(circles => {
 
 
 
-const scheduleVariable = function(argument){
-  argument = argument
-}
+const scheduleVariable = function(){
+  taskToday = taskInput
+};
 
 //テストコード
 /*Button.addEventListener('click', () => {

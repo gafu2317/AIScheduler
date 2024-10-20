@@ -66,4 +66,5 @@ const taskInput = {
     "プロジェクトの最終報告書を作成する。十ページ程度の文章を書く。,そこまで難しくない",
 };
 
-predictTaskTime(taskInput)
+
+export default predictTaskTime;

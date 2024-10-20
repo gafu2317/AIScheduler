@@ -25,7 +25,10 @@
   left: 0;
   width: 100%;
   height: 100%;
-  display: none;
+  display: flex; /* フレックスを使用 */
+  justify-content: center; /* 水平方向の中央揃え */
+  align-items: center; /* 垂直方向の中央揃え */
+  display: none; /* 初期状態は非表示 */
 }
 
 #colorPopupWrapper {

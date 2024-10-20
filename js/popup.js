@@ -46,6 +46,12 @@ document.querySelectorAll('.circles').forEach(circles => {
   });
 });
 
+
+
+const scheduleVariable = function(argument){
+  argument = argument
+}
+
 //テストコード
 /*Button.addEventListener('click', () => {
   alert(`タイトル: ${taskTitle.value}\n詳細: ${taskDiscription.value}\n時間: ${taskTime.value}\n日付: ${taskDate.value}`); 

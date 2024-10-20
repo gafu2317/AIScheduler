@@ -59,14 +59,14 @@ const scheduleVariable = function(){
     year : today.getFullYear(),
     month : today.getMonth()+1,
     day: today.getDay(),
-    title: document.getElementById('taskTitle').value,
+    title: taskTitle.value,
   
     deadline:{
      year:taskDate.getFullYear(),
      month:taskDate.getMonth()+1,
      day:taskDate.getDay(),
     },
-    taskDuration:document.getElementById('taskTime').value,
+    taskDuration:taskTime.value,
     }
     console.log(taskInput)
  
@@ -77,3 +77,4 @@ const scheduleVariable = function(){
   alert(`タイトル: ${taskTitle.value}\n詳細: ${taskDiscription.value}\n時間: ${taskTime.value}\n日付: ${taskDate.value}`); 
 });*/
 
+export default scheduleVariable;

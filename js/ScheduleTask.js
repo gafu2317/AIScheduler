@@ -1,4 +1,6 @@
 import OpenAI from "openai";
+
+
 import dotenv from "dotenv";
 
 dotenv.config(); //.envの内容を読み込む
@@ -129,7 +131,7 @@ const predictTaskTime = async (taskInput) => {
   console.log(completion.choices[0].message.parsed);
 };
 
-predictTaskTime(taskInput);
+//predictTaskTime(taskInput);
 
 
 

@@ -1,6 +1,6 @@
-const Button = document.getElementById('Button');
+const Button = document.getElementById('Button')
 
 
 Button.addEventListener('click', () => {
-    scheduleVariable ; 
+    scheduleVariable() ; 
   });

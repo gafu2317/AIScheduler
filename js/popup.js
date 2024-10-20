@@ -11,23 +11,8 @@ const colorPopupWrapper = document.getElementById('colorPopupWrapper');
 const colorClose = document.getElementById('colorClose');
 const colorPopupInside = document.getElementById('colorPopupInside')
 const circles = document.getElementsByClassName('circles');
-const today =  new Date();
-const year = today.getFullYear();
-const month = today.getMonth() +1;
-const day = today.getDay();
-const taskToday = {
-  year: year,
-  month: month,
-  day: day,
-  title: taskTitle,
-  description: taskDiscripition,
-  deadline: {
-    year: 2024,
-    month: 10,
-    day: 15,
-  },
-  taskDuration: 600, 
-};
+
+
 
 // ボタンをクリックしたときにポップアップを表示させる
 clickBtn.addEventListener('click', () => {
@@ -63,12 +48,31 @@ document.querySelectorAll('.circles').forEach(circles => {
   });
 });
 
+const today =  new Date();
+const year = today.getFullYear();
+const month = today.getMonth() +1;
+const day = today.getDay();
+const taskYear = taskDate.getFullYear();
+const taskMonth = taskDate.getMonth()+1;
+const taskDay = taskDate.getDay();
 
 
-const scheduleVariable = function(){
-  taskToday = taskInput
+const taskToday = {
+  year: year,
+  month: month,
+  day: day,
+  title: taskTitle,
+  description: taskDiscripition,
+  deadline: {
+    year: taskYear,
+    month: taskMonth,
+    day: taskDay,
+  },
+  taskDuration: taskTime, 
 };
-
+const scheduleVariable = function(){
+  taskInput = taskToday
+}
 //テストコード
 /*Button.addEventListener('click', () => {
   alert(`タイトル: ${taskTitle.value}\n詳細: ${taskDiscription.value}\n時間: ${taskTime.value}\n日付: ${taskDate.value}`); 

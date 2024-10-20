@@ -9,7 +9,7 @@ const client = new OpenAI({ apiKey: apiKey });
 
 
 //入力データの例を一時的に作成
-const taskInput = {
+/*const taskInput = {
   year: 2024,
   month: 9,
   day: 14,
@@ -21,7 +21,7 @@ const taskInput = {
     day: 15,
   },
   taskDuration: 600, 
-};
+};*/
 
 //  他の日の予定
 const OtherSchedule = {

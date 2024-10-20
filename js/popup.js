@@ -59,16 +59,18 @@ const scheduleVariable = function(){
     year : today.getFullYear(),
     month : today.getMonth()+1,
     day: today.getDay(),
-    title: taskTitle,
+    title: document.getElementById('taskTitle').value,
+  
     deadline:{
      year:taskDate.getFullYear(),
      month:taskDate.getMonth()+1,
      day:taskDate.getDay(),
     },
-    taskDuration:taskTime
+    taskDuration:document.getElementById('taskTime').value,
     }
+    console.log(taskInput)
+ 
   
-  taskInput
 }
 //テストコード
 /*Button.addEventListener('click', () => {

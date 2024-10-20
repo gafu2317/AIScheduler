@@ -6,29 +6,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>AIScheduler</title>
   </head>
-  <body>
-    <button id="clickBtn">クリック！</button>
+  <body id="all">
+    <div id="buttonContainer"><button id="clickBtn">タスク追加ボタン</button></div>
     <div id="popupWrapper">
       <div id="popupInside">
         <div id="close">x</div>
         <div id="inputContainer">
           <input
             type="text"
-            id="tasktitle"
+            id="taskTitle"
             placeholder="タスクのタイトルを入力"
           />
           <textarea
-            id="taskDiscripition"
+            type="textarea"
+            id="taskDiscription"
             placeholder="タスクの詳細を入力"
           ></textarea>
         </div>
+        <div id=taskDateDiscription>タスクの期限を入力</div>
         <div id="optionContainer">
           <input
             type="text"
             id="taskTime"
-            placeholder="タスクにかかる時間を入力"
+            placeholder="タスクの時間を入力"
           />
-          <input type="date" id="taskDate" />
+          <input type="date" id="taskDate" 
+          />
+          
 
           <div id="taskColor">
             <div id="colorPopupWrapper">
@@ -36,19 +40,19 @@
                 
                   <div id="circleContainer">
                     <div id="circleUpperLow">
-                      <div id="circleRed" class="circles"></div>
+                      <div id="circleRed" class="circles" data-color="red"></div>
                     
-                      <div id="circleBlue" class="circles"></div>
-                      <div id="circleYellow" class="circles"></div>
-                      <div id="circleGreen" class="circles"></div>
-                      <div id="circleOrange" class="circles"></div>
+                      <div id="circleBlue" class="circles" data-color="blue"></div>
+                      <div id="circleYellow" class="circles" data-color="yellow"></div>
+                      <div id="circleGreen" class="circles" data-color="green"></div>
+                      <div id="circleOrange" class="circles" data-color="orange"></div>
                     </div>
                     <div id="circleLowerLow">
-                       <div id="circlePurple" class="circles"></div>
-                       <div id="circlePink" class="circles"></div>
-                       <div id="circleBrown" class="circles"></div>
-                       <div id="circleCyan" class="circles"></div>
-                       <div id="circleMagenta" class="circles"></div>
+                       <div id="circlePurple" class="circles" data-color="purple"></div>
+                       <div id="circlePink" class="circles" data-color="pink"></div>
+                       <div id="circleBrown" class="circles" data-color="brown"></div>
+                       <div id="circleCyan" class="circles" data-color="cyan"></div>
+                       <div id="circleMagenta" class="circles" data-color="magenta"></div>
                        
                       
 
@@ -64,6 +68,17 @@
           
         </div>
         <div id="taskLocation">
+          <div id="locationPopupWrapper">
+            <div id="locationPopupInside">
+              <div id="locationClose">
+                x
+              </div>
+
+
+            </div>
+
+
+          </div>
           <img src="public/img/場所のアイコン.jpg" alt="場所のアイコン" />
         </div>
 
@@ -71,7 +86,9 @@
       <button id="Button">タスクを追加</button>
     </div>
 
-    <script type="module" src="js/main.js"></script>
-    <script type="module" src="js/popup.js"></script>
+    <script  src="js/popup.js"></script>
+    <script src="js/TaskTime.mjs"></script>
+    <script src="js/ScheduleTask.js"></script>
+    <script  src="js/main.js"></script>
   </body>
 </html>

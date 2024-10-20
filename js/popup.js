@@ -2,10 +2,15 @@ const clickBtn = document.getElementById('clickBtn');
 const popupWrapper = document.getElementById('popupWrapper');
 const close = document.getElementById('close');
 const Button = document.getElementById('Button');
+const taskTitle = document.getElementById('taskTitle')
+const taskDiscripition = document.getElementById('taskDiscription')
+const taskTime = document.getElementById('taskTime')
+const taskDate = document.getElementById('taskDate')
 const taskColor = document.getElementById('taskColor');
 const colorPopupWrapper = document.getElementById('colorPopupWrapper');
 const colorClose = document.getElementById('colorClose');
-
+const colorPopupInside = document.getElementById('colorPopupInside')
+const circles = document.getElementsByClassName('circles');
 
 // ボタンをクリックしたときにポップアップを表示させる
 clickBtn.addEventListener('click', () => {
@@ -34,11 +39,21 @@ taskColor.addEventListener('click',function(e){
   }
 });
 
-//入力された値を読み込む関数(テスト用)
-Button.addEventListener('click',function(){
-  const inputValue = document.getElementById('tasktitle').value;
-  alert(inputValue);
+// １０色の色のdivタグをクリックしたときに色を変更する
+document.querySelectorAll('.circles').forEach(circles => {
+  circles.addEventListener('click', () => {
+    taskColor.style.backgroundColor = circles.dataset.color;
+  });
 });
 
 
+
+const scheduleVariable = function(argument){
+  argument = argument
+}
+
+//テストコード
+/*Button.addEventListener('click', () => {
+  alert(`タイトル: ${taskTitle.value}\n詳細: ${taskDiscription.value}\n時間: ${taskTime.value}\n日付: ${taskDate.value}`); 
+});*/
 

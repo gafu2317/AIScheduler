@@ -13,6 +13,18 @@ const taskInput = {
   year: 2024,
   month: 9,
   day: 14,
+  title: "新しいプロジェクトの計画",
+  description: "プロジェクトの初期計画を立てる。",
+  deadline: {
+    year: 2024,
+    month: 10,
+    day: 15,
+  },
+  taskDuration: 600, 
+};
+
+//  他の日の予定
+const OtherSchedule = {
   schedule: [
     {
       year: 2024,
@@ -30,18 +42,10 @@ const taskInput = {
     },
     // その他の予定が続く
   ],
-  title: "新しいプロジェクトの計画",
-  description: "プロジェクトの初期計画を立てる。",
-  deadline: {
-    year: 2024,
-    month: 10,
-    day: 15,
-  },
-  taskDuration: 600, 
 };
 
 //スケジュールがいくつあるか分からないので、map関数を使って文字列に変換
-const scheduleString = taskInput.schedule
+const scheduleString = OtherSchedule.schedule
   .map((item) => {
     return `${item.year}/${item.month}/${item.day} ${item.startTime} - ${item.endTime}`;
   })

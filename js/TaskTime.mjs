@@ -67,4 +67,3 @@ const taskInput = {
 };
 
 
-export default predictTaskTime;

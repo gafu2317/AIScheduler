@@ -134,3 +134,4 @@ predictTaskTime(taskInput);
 
 
 
+export default predictTaskTime;

@@ -1,8 +1,4 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box; /* ボックスモデルの調整 */
-}
+
 
 #clickBtn {
   display: block;
@@ -156,7 +152,6 @@
 }
 
 #taskTime {
-  margin-right: 10px;
   margin-left: 20px;
 }
 
@@ -248,6 +243,3 @@
   background-color: magenta;
 }
 
-#taskDateDiscription{
-  margin-left: 200px;
-}

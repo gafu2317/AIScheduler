@@ -1,4 +1,6 @@
 import OpenAI from "openai";
+
+
 import dotenv from "dotenv";
 
 dotenv.config(); //.envの内容を読み込む
@@ -66,4 +68,4 @@ const taskInput = {
     "プロジェクトの最終報告書を作成する。十ページ程度の文章を書く。,そこまで難しくない",
 };
 
-predictTaskTime(taskInput)
+

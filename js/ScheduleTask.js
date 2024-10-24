@@ -1,4 +1,6 @@
 import OpenAI from "openai";
+
+
 import dotenv from "dotenv";
 
 dotenv.config(); //.envの内容を読み込む
@@ -7,7 +9,7 @@ const apiKey = process.env.CHATGPT_KEY;
 const client = new OpenAI({ apiKey: apiKey });
 
 //入力データの例を一時的に作成
-const taskInput = {
+/*const taskInput = {
   year: 2024,
   month: 9,
   day: 14,
@@ -19,10 +21,10 @@ const taskInput = {
     day: 15,
   },
   taskDuration: 600, 
-};
+};*/
 
 //  他の日の予定
-const OtherSchedule = {
+/*const OtherSchedule = {
   schedule: [
     {
       year: 2024,
@@ -40,7 +42,7 @@ const OtherSchedule = {
     },
     // その他の予定が続く
   ],
-};
+};*/
 
 //スケジュールがいくつあるか分からないので、map関数を使って文字列に変換
 const scheduleString = OtherSchedule.schedule
@@ -127,4 +129,10 @@ const predictTaskTime = async (taskInput) => {
   console.log(completion.choices[0].message.parsed);
 };
 
-predictTaskTime(taskInput);
+//predictTaskTime(taskInput);
+
+
+
+
+export default predictTaskTime;
+

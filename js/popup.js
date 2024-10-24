@@ -3,7 +3,7 @@ const popupWrapper = document.getElementById('popupWrapper');
 const close = document.getElementById('close');
 const Button = document.getElementById('Button');
 const taskTitle = document.getElementById('taskTitle')
-const taskDiscripition = document.getElementById('taskDiscription')
+const taskDiscription = document.getElementById('taskDiscription')
 const taskTime = document.getElementById('taskTime')
 const taskDate = document.getElementById('taskDate')
 const taskColor = document.getElementById('taskColor');
@@ -13,6 +13,8 @@ const colorPopupInside = document.getElementById('colorPopupInside')
 const circles = document.getElementsByClassName('circles');
 const locationPopupWrapper = document.getElementById('locationPopupWrapper');
 const taskLocation = document.getElementById('taskLocation');
+
+
 
 // ボタンをクリックしたときにポップアップを表示させる
 clickBtn.addEventListener('click', () => {
@@ -62,13 +64,27 @@ document.querySelectorAll('.circles').forEach(circles => {
 });
 
 
-
-const scheduleVariable = function(argument){
-  argument = argument
+const scheduleVariable = function(){
+  const today =  new Date()
+  const taskInputDate = new Date(taskDate.value)
+  const taskInput = {
+    year: today.getFullYear(),
+    month: today.getMonth() + 1,
+    day: today.getDate(),
+    title: taskTitle.value,
+    description: taskDiscription.value,
+    deadline: {
+      year: taskInputDate.getFullYear(),
+      month: taskInputDate.getMonth() + 1,
+      day: taskInputDate.getDate(),
+    },
+    taskDuration: taskTime.value,
+  };
+    return taskInput;
 }
-
 //テストコード
 /*Button.addEventListener('click', () => {
   alert(`タイトル: ${taskTitle.value}\n詳細: ${taskDiscription.value}\n時間: ${taskTime.value}\n日付: ${taskDate.value}`); 
 });*/
 
+export default scheduleVariable;

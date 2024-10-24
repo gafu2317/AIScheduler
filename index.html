@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="ja">
   <head>
@@ -25,21 +27,19 @@
         </div>
         <div id=taskDateDiscription>タスクの期限を入力</div>
         <div id="optionContainer">
+          <input type="date" id="taskDate" 
+          />
           <input
             type="text"
             id="taskTime"
             placeholder="タスクの時間を入力"
           />
-          <input type="date" id="taskDate" 
-          />
           <div id="taskColor">
             <div id="colorPopupWrapper">
               <div id="colorPopupInside">
-                
                   <div id="circleContainer">
                     <div id="circleUpperLow">
                       <div id="circleRed" class="circles" data-color="red"></div>
-                    
                       <div id="circleBlue" class="circles" data-color="blue"></div>
                       <div id="circleYellow" class="circles" data-color="yellow"></div>
                       <div id="circleGreen" class="circles" data-color="green"></div>
@@ -71,10 +71,7 @@
       </div>
       <button id="Button">タスクを追加</button>
     </div>
-
-    <script  src="js/popup.js"></script>
-    <script src="js/TaskTime.mjs"></script>
-    <script src="js/ScheduleTask.js"></script>
-    <script  src="js/main.js"></script>
+    <script type="module" src="js/popup.js"></script>
+    <script type="module" src="js/main.js"></script>
   </body>
 </html>

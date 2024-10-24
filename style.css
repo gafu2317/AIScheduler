@@ -1,4 +1,8 @@
-
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box; /* ボックスモデルの調整 */
+}
 
 #clickBtn {
   display: block;
@@ -25,10 +29,10 @@
   left: 0;
   width: 100%;
   height: 100%;
-  display: flex; /* フレックスを使用 */
-  justify-content: center; /* 水平方向の中央揃え */
-  align-items: center; /* 垂直方向の中央揃え */
-  display: none; /* 初期状態は非表示 */
+  display: none;
+  align-items: center;
+  display: flex;
+  justify-content: center;
 }
 
 #colorPopupWrapper {
@@ -54,7 +58,7 @@
 
 #popupInside {
   width: 100%;
-  height: 500px;
+  height: 550px;
   max-width: 400px;
 
   background: white;
@@ -62,6 +66,7 @@
   padding: 20px;
   position: relative;
   border-radius: 10px;
+  
 }
 
 #colorPopupInside {
@@ -82,10 +87,10 @@
 #locationPopupInside {
   width: 100%;
   height: 240px;
-  max-width: 320px;
+  max-width: 400px;
 
   background: white;
-  margin: 30% auto;
+  margin: 20% auto;
   padding: 10px;
   position: relative;
   border-radius: 6px;
@@ -145,13 +150,17 @@
 
 #taskDateDiscription{
   display: inline;
-  margin-left: 180px;
+  margin-left: 20px;
   color: gray;
   font-size: 11px;
 }
 
 #taskTime {
   margin-right: 10px;
+  margin-left: 20px;
+}
+
+#taskDate{
   margin-left: 20px;
 }
 
@@ -237,4 +246,8 @@
 
 #circleMagenta {
   background-color: magenta;
+}
+
+#taskDateDiscription{
+  margin-left: 200px;
 }

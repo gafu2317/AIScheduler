@@ -3,7 +3,7 @@ const popupWrapper = document.getElementById('popupWrapper');
 const close = document.getElementById('close');
 const Button = document.getElementById('Button');
 const taskTitle = document.getElementById('taskTitle')
-const taskDiscripition = document.getElementById('taskDiscription')
+const taskDiscription = document.getElementById('taskDiscription')
 const taskTime = document.getElementById('taskTime')
 const taskDate = document.getElementById('taskDate')
 const taskColor = document.getElementById('taskColor');
@@ -49,28 +49,23 @@ document.querySelectorAll('.circles').forEach(circles => {
 });
 
 
-
-
-
-
 const scheduleVariable = function(){
   const today =  new Date()
-  const taskInput ={
-    year : today.getFullYear(),
-    month : today.getMonth()+1,
-    day: today.getDay(),
+  const taskInputDate = new Date(taskDate.value)
+  const taskInput = {
+    year: today.getFullYear(),
+    month: today.getMonth() + 1,
+    day: today.getDate(),
     title: taskTitle.value,
-  
-    deadline:{
-     year:taskDate.getFullYear(),
-     month:taskDate.getMonth()+1,
-     day:taskDate.getDay(),
+    description: taskDiscription.value,
+    deadline: {
+      year: taskInputDate.getFullYear(),
+      month: taskInputDate.getMonth() + 1,
+      day: taskInputDate.getDate(),
     },
-    taskDuration:taskTime.value,
-    }
-    console.log(taskInput)
- 
-  
+    taskDuration: taskTime.value,
+  };
+    return taskInput;
 }
 //テストコード
 /*Button.addEventListener('click', () => {

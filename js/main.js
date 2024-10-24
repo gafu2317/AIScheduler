@@ -4,6 +4,7 @@ const Button = document.getElementById('Button')
 
 
 Button.addEventListener('click', () => {
-    scheduleVariable() ; 
+    const taskInput = scheduleVariable(); 
+    console.log(taskInput);
   });
 

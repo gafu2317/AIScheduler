@@ -11,6 +11,8 @@ const colorPopupWrapper = document.getElementById('colorPopupWrapper');
 const colorClose = document.getElementById('colorClose');
 const colorPopupInside = document.getElementById('colorPopupInside')
 const circles = document.getElementsByClassName('circles');
+const locationPopupWrapper = document.getElementById('locationPopupWrapper');
+const taskLocation = document.getElementById('taskLocation');
 
 
 
@@ -26,6 +28,12 @@ taskColor.addEventListener('click',() => {
   
 });
 
+//　マップアイコンをクリックしたときにポップアップを表示させる
+taskLocation.addEventListener('click',() =>{
+  locationPopupWrapper.style.visibility = 'visible';
+  locationPopupWrapper.style.display = 'block';
+})
+
 // ポップアップの外側又は「x」のマークをクリックしたときポップアップを閉じる
 popupWrapper.addEventListener('click', e => {
   if (e.target.id === popupWrapper.id || e.target.id === close.id) {
@@ -38,6 +46,13 @@ popupWrapper.addEventListener('click', e => {
 taskColor.addEventListener('click',function(e){
   if(e.target.id === colorPopupWrapper.id  || e.target.id === colorClose.id){
     colorPopupWrapper.style.visibility = 'hidden';
+  }
+});
+
+// マップのポップアップの外側又は「x」のマークをクリックしたときポップアップを閉じる
+taskLocation.addEventListener('click',function(e){
+  if(e.target.id === locationPopupWrapper.id  || e.target.id === locationClose.id){
+    locationPopupWrapper.style.visibility = 'hidden';
   }
 });
 

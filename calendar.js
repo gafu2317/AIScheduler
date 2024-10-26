@@ -51,13 +51,15 @@ document.addEventListener("DOMContentLoaded", function () {
   calendarMonth.render();
   calendarDay.render();
 
+  let userId ;
+  
   // ログイン処理
   const loginButton = document.getElementById("loginButton");
   loginButton.addEventListener("click", () => {
     signInWithPopup(auth, provider)
       .then(async (result) => {
         if (result.user != null) {
-          const userId = result.user.uid;
+          userId = result.user.uid;
           console.log(result.user.uid);
 
           // Firestoreからユーザーの予定を取得
@@ -93,4 +95,33 @@ document.addEventListener("DOMContentLoaded", function () {
         console.error("Login error:", error);
       });
   });
+
+  // // ボタンクリック時のイベント処理
+document.getElementById("addBtn").addEventListener("click", async () => {
+  // データの追加
+  const citiesRef = collection(db, "sakurasaku");
+  try {
+    const docName = userId;
+    console.log(docName);
+    // Firestoreにドキュメントを追加
+    await setDoc(doc(db, "UIDs", docName), {
+      id: doc.id,
+      title: "sakanakusyonn",
+      start: "1235", // Firestore Timestamp -> JS Dateに変換
+      end: "hfoa",
+      allDay: "hodas",
+      backgroundColor: "fao",
+    });
+
+    console.log(`Document created with name: ${docName}`);
+
+    console.log("Subcollection document added successfully!");
+  } catch (error) {
+    console.error("Error adding document or subcollection: ", error);
+  }
 });
+});
+
+
+
+

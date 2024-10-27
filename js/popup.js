@@ -86,10 +86,10 @@ const scheduleVariable = function(){
 
 const additionalOption = function(){
 const additionalTaskInput = {
-  color:,
+  color:window.getComputedStyle(taskColor).getPropertyValue('background-color'),
   location: location.value
 }
-   return additionalInput;
+   return additionalTaskInput;
 }
 
-export default scheduleVariable;
+export {scheduleVariable,additionalOption};

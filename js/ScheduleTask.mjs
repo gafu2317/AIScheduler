@@ -45,11 +45,11 @@ const client = new OpenAI({ apiKey: apiKey });
 };*/
 
 //スケジュールがいくつあるか分からないので、map関数を使って文字列に変換
-const scheduleString = OtherSchedule.schedule
+/*const scheduleString = OtherSchedule.schedule
   .map((item) => {
     return `${item.year}/${item.month}/${item.day} ${item.startTime} - ${item.endTime}`;
   })
-  .join(", ");
+  .join(", ");*/
 
 // JSONスキーマ
 const taskOutputSchema = {

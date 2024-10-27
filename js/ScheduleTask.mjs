@@ -1,6 +1,5 @@
+import express from "express";
 import OpenAI from "openai";
-
-
 import dotenv from "dotenv";
 
 dotenv.config(); //.envの内容を読み込む
@@ -8,48 +7,10 @@ dotenv.config(); //.envの内容を読み込む
 const apiKey = process.env.CHATGPT_KEY;
 const client = new OpenAI({ apiKey: apiKey });
 
-//入力データの例を一時的に作成
-/*const taskInput = {
-  year: 2024,
-  month: 9,
-  day: 14,
-  title: "新しいプロジェクトの計画",
-  description: "プロジェクトの初期計画を立てる。",
-  deadline: {
-    year: 2024,
-    month: 10,
-    day: 15,
-  },
-  taskDuration: 600, 
-};*/
+const app = express();
+const port = 3000;
 
-//  他の日の予定
-/*const OtherSchedule = {
-  schedule: [
-    {
-      year: 2024,
-      month: 9,
-      day: 14,
-      startTime: 600, // 10:00
-      endTime: 660, // 11:00
-    },
-    {
-      year: 2024,
-      month: 9,
-      day: 15,
-      startTime: 720, // 12:00
-      endTime: 780, // 13:00
-    },
-    // その他の予定が続く
-  ],
-};*/
-
-//スケジュールがいくつあるか分からないので、map関数を使って文字列に変換
-const scheduleString = OtherSchedule.schedule
-  .map((item) => {
-    return `${item.year}/${item.month}/${item.day} ${item.startTime} - ${item.endTime}`;
-  })
-  .join(", ");
+app.use(express.json());
 
 // JSONスキーマ
 const taskOutputSchema = {
@@ -85,7 +46,14 @@ const taskOutputSchema = {
   additionalProperties: false,
 };
 
-const predictTaskTime = async (taskInput) => {
+const predictTaskTime = async (taskInput, OtherSchedule) => {
+  //スケジュールがいくつあるか分からないので、map関数を使って文字列に変換
+  const scheduleString = OtherSchedule.schedule
+    .map((item) => {
+      return `${item.year}/${item.month}/${item.day} ${item.startTime} - ${item.endTime}`;
+    })
+    .join(", ");
+
   //OpenAI APIの呼び出し
   const completion = await client.beta.chat.completions.parse({
     model: "gpt-4o-mini",
@@ -127,12 +95,21 @@ const predictTaskTime = async (taskInput) => {
   });
 
   console.log(completion.choices[0].message.parsed);
+  return completion.choices[0].message.parsed;
 };
 
-//predictTaskTime(taskInput);
+app.post("/predictTaskTime", async (req, res) => {
+  const taskInput = req.body.taskInput;
+  const OtherSchedule = req.body.OtherSchedule;
+  try {
+    const result = await predictTaskTime(taskInput, OtherSchedule);
+    res.json(result);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Internal Server Error");
+  }
+});
 
-
-
-
-export default predictTaskTime;
-
+app.listen(port, () => {
+  console.log(`Example app listening at http://localhost:${port}`);
+});

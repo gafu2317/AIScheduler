@@ -13,6 +13,7 @@ const colorPopupInside = document.getElementById('colorPopupInside')
 const circles = document.getElementsByClassName('circles');
 const locationPopupWrapper = document.getElementById('locationPopupWrapper');
 const taskLocation = document.getElementById('taskLocation');
+const location = document.getElementById('location');
 
 
 
@@ -82,9 +83,13 @@ const scheduleVariable = function(){
   };
     return taskInput;
 }
-//テストコード
-/*Button.addEventListener('click', () => {
-  alert(`タイトル: ${taskTitle.value}\n詳細: ${taskDiscription.value}\n時間: ${taskTime.value}\n日付: ${taskDate.value}`); 
-});*/
+
+const additionalOption = function(){
+const additionalTaskInput = {
+  color:,
+  location: location.value
+}
+   return additionalInput;
+}
 
 export default scheduleVariable;

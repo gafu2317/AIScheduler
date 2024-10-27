@@ -8,3 +8,8 @@ Button.addEventListener('click', () => {
     console.log(taskInput);
   });
 
+  // popupContainerにポップアップのHTMLを挿入
+  document.getElementById("popupContainer").innerHTML = colorInput;
+
+  // ポップアップ表示用のスタイルを設定
+ // document.getElementById("popupContainer").style.display = 'block';

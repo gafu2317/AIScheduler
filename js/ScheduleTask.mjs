@@ -127,12 +127,21 @@ const predictTaskTime = async (taskInput) => {
   });
 
   console.log(completion.choices[0].message.parsed);
+  return completion.choices[0].message.parsed;
 };
 
-//predictTaskTime(taskInput);
+app.post("/predictTaskTime", async (req, res) => {
+  const taskInput = req.body.taskInput;
+  const OtherSchedule = req.body.OtherSchedule;
+  try {
+    const result = await predictTaskTime(taskInput, OtherSchedule);
+    res.json(result);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("サーバーエラー");
+  }
+});
 
-
-
-
-export default predictTaskTime;
-
+app.listen(port, () => {
+  console.log(`サーバーが起動しました http://localhost:${port}`);
+});

@@ -106,10 +106,10 @@ app.post("/predictTaskTime", async (req, res) => {
     res.json(result);
   } catch (error) {
     console.error(error);
-    res.status(500).send("Internal Server Error");
+    res.status(500).send("サーバーエラー");
   }
 });
 
 app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`);
+  console.log(`サーバーが起動しました http://localhost:${port}`);
 });

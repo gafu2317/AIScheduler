@@ -5,19 +5,23 @@ console.log(testResult);
 function displayData(data){
     ButtonPopupResult.innerHTML = setInnerHTML(data); 
 }
-function setInnerHTML(data){
-  const HTMLcontent =`<div></div>`;
+function timeUnit(minutes){
+    
+}
+function setInnerHTML(task){
+    const data = task.tasks
+  let HTMLcontent =`<div></div>`;
   for(let i=0;i<data.length;i++){
     HTMLcontent+=`
-      <div id="title">タスク${(i+1)}</div>
-      <div id="dateContainer">
-        <div id="year">${i}</div>
-        <div id="month"></div>
-        <div id="day"></div>
+      <div class="title">タスク${(i+1)}回目</div>
+      <div class="dateContainer">
+        <div class="year">${data[i].year}</div>
+        <div class="month">${data[i].month}</div>
+        <div class="day">${data[i].day}</div>
       </div>
-      <div id="timeContainer">
-        <div id="startTime"></div>
-        <div id="endTime"></div>
+      <div class="timeContainer">
+        <div class="startTime">${data[i].}</div>
+        <div class="endTime">${data[i].}</div>
       </div>
       `
   }

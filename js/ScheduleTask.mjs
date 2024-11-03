@@ -70,7 +70,7 @@ const predictTaskTime = async (taskInput, OtherSchedule) => {
         content:
         `This task:${taskInput.title}, ${taskInput.description} is expected to take about ${taskInput.taskDuration} minutes. When should I start and how many minutes should I work?
         Do not schedule tasks between 0 mimutes and ${taskInput.noTaskUntilHour}mimutes. 
-        If a task session is too long, please split it and create break times in between.
+        If a ${taskInput.taskDuration} minutes is more than 240 minutes, please split it and create break times in between.
         Please ensure the total of TaskDuration is ${taskInput.taskDuration}.
         Ensure the task does not overlap with these scheduled plans :${scheduleString}.
         Please output the start time in minutes (e.g., for 12:00, output 720).

@@ -31,8 +31,8 @@ taskColor.addEventListener("click", () => {
 
 //　マップアイコンをクリックしたときにポップアップを表示させる
 taskLocation.addEventListener("click", () => {
-  colorPopupWrapper.style.visibility = "visible";
-  colorPopupWrapper.style.display = "block";
+  locationPopupWrapper.style.visibility = "visible";
+  locationPopupWrapper.style.display = "block";
 });
 
 //タスク追加ボタンを押したときにポップアップを表示させる

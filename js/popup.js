@@ -67,10 +67,7 @@ taskLocation.addEventListener("click", function (e) {
 
 //タスク追加確認画面のポップアップの外側又は「x」のマークをクリックしたときポップアップを閉じる
 ButtonContainer.addEventListener("click", function (e) {
-  if (
-    e.target.id === ButtonPopupWrapper.id ||
-    e.target.id === ButtonClose.id
-  ) {
+  if (e.target.id === ButtonPopupWrapper.id || e.target.id === ButtonClose.id) {
     ButtonPopupWrapper.style.visibility = "hidden";
   }
 });
@@ -99,6 +96,16 @@ const scheduleVariable = function () {
   };
   return taskInput;
 };
+
+const taskInformations = function () {
+  const informations = {
+    taskColor: taskColor.value,
+    taskLocation: taskLocation.value,
+  };
+
+  return informations;
+};
+
 //テストコード
 /*Button.addEventListener('click', () => {
   alert(`タイトル: ${taskTitle.value}\n詳細: ${taskDiscription.value}\n時間: ${taskTime.value}\n日付: ${taskDate.value}`); 

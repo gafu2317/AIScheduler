@@ -1,9 +1,9 @@
 // import scheduleVariable from "./popup.js";
 const Button = document.getElementById("Button");
 
-Button.addEventListener("click", async() => {
-  // const taskInput = scheduleVariable();
-  // console.log(taskInput);
+Button.addEventListener("click", async () => {
+   const taskInput = scheduleVariable();
+   console.log(taskInput);
   // try {
   //   const response = await fetch("http://localhost:3000/predictTaskTime", {
   //     method: "POST",
@@ -17,9 +17,12 @@ Button.addEventListener("click", async() => {
   //   });
   //   if (!response.ok) {
   //     const errorDetail = await response.text();
-  //     throw new Error(`エラー：${response.status} ${response.statusText}\n${errorDetail}`);
+  //     throw new Error(
+  //       `エラー：${response.status} ${response.statusText}\n${errorDetail}`
+  //     );
   //   }
-  //   const result = await response.json(); 
+  //   const result = await response.json();
+  //   console.log(result);
   // } catch (error) {
   //   console.error(error);
   // }
@@ -60,25 +63,23 @@ const otherSchedule = {
   ],
 };
 
-
-// テスト用データ
-const testresult = {
+//テスト用出力データ
+const testResult = {
   tasks: [
     {
       year: 2024,
       month: 9,
       day: 14,
       StartMinutes: 660,
-      TaskDuration: 60
+      TaskDuration: 60,
     },
     {
       year: 2024,
       month: 9,
       day: 14,
       StartMinutes: 780,
-      TaskDuration: 60
-    }
-  ]
-}
-
-export default testresult;
+      TaskDuration: 60,
+    },
+  ],
+};
+export default testResult;

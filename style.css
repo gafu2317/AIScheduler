@@ -1,7 +1,7 @@
 #clickBtn {
   display: block;
   margin: 20px auto;
-  background-color:rgba(0, 191, 255, 0.648);
+  background-color: rgba(0, 191, 255, 0.648);
   color: white;
   border: 0;
   padding: 6px 10px;
@@ -11,7 +11,7 @@
   font-size: 20px;
 }
 
-#buttonContainer{
+#buttonContainer {
   align-items: center;
   justify-content: center;
 }
@@ -49,6 +49,15 @@
   display: none;
 }
 
+#ButtonPopupWrapper {
+  background-color: rgba(0, 0, 0, 0.5);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: none;
+}
 
 #popupInside {
   width: 100%;
@@ -60,7 +69,6 @@
   padding: 20px;
   position: relative;
   border-radius: 10px;
-  
 }
 
 #colorPopupInside {
@@ -74,7 +82,7 @@
   margin-bottom: 30%;
   padding: 20px;
   position: relative;
-  position :30px;
+  position: 30px;
   border-radius: 10px;
 }
 
@@ -92,10 +100,26 @@
   display: flex;
   justify-content: center;
 }
-#location{
+
+#ButtonPopupInside {
+  width: 100%;
+  height: 240px;
+  max-width: 400px;
+
+  overflow-y: scroll;
+  background: white;
+  margin: 20% auto;
+  padding: 10px;
+  position: relative;
+  border-radius: 6px;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+
+#location {
   width: 80%;
   height: 60%;
-  
 }
 
 #close {
@@ -112,17 +136,22 @@
   cursor: pointer;
 }
 
-#locationClose{
+#locationClose {
   position: absolute;
   top: 0;
   right: 5px;
   cursor: pointer;
 }
 
+#ButtonClose {
+  position: absolute;
+  top: 0;
+  right: 5px;
+  cursor: pointer;
+}
 #inputContainer {
   text-align: center;
   height: 75%;
-  
 }
 
 #taskTitle {
@@ -133,7 +162,6 @@
 #inputContainer {
   text-align: center;
   height: 80%;
-  
 }
 
 #taskDiscription {
@@ -142,7 +170,7 @@
   margin-top: 10px;
 }
 
-#taskDateDiscription{
+#taskDateDiscription {
   display: inline;
   margin-left: 20px;
   color: gray;
@@ -153,7 +181,7 @@
   margin-left: 20px;
 }
 
-#taskDate{
+#taskDate {
   margin-left: 20px;
 }
 
@@ -179,8 +207,6 @@
 #Button {
   margin: 10px 20px;
 }
-
-
 
 #circleUpperLow {
   display: flex;

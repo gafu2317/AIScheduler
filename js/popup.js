@@ -6,7 +6,6 @@ const ButtonPopupWrapper = document.getElementById("ButtonPopupWrapper");
 const ButtonClose = document.getElementById("ButtonClose");
 const ButtonContainer = document.getElementById("ButtonContainer");
 const taskTitle = document.getElementById("taskTitle");
-
 const taskDiscription = document.getElementById("taskDiscription");
 const taskTime = document.getElementById("taskTime");
 const taskDate = document.getElementById("taskDate");
@@ -18,7 +17,7 @@ const circles = document.getElementsByClassName("circles");
 const locationPopupWrapper = document.getElementById("locationPopupWrapper");
 const taskLocation = document.getElementById("taskLocation");
 const location = document.getElementById("location");
-const taskInfo = taskInformations();
+
 // ボタンをクリックしたときにポップアップを表示させる
 clickBtn.addEventListener("click", () => {
   popupWrapper.style.display = "block";

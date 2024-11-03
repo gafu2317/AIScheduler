@@ -31,8 +31,8 @@ taskColor.addEventListener("click", () => {
 
 //　マップアイコンをクリックしたときにポップアップを表示させる
 taskLocation.addEventListener("click", () => {
-  colorPopupWrapper.style.visibility = "visible";
-  colorPopupWrapper.style.display = "block";
+  locationPopupWrapper.style.visibility = "visible";
+  locationPopupWrapper.style.display = "block";
 });
 
 //タスク追加ボタンを押したときにポップアップを表示させる
@@ -99,8 +99,8 @@ const scheduleVariable = function () {
 
 const taskInformations = function () {
   const informations = {
-    taskColor: taskColor.value,
-    taskLocation: taskLocation.value,
+    taskColor: taskColor.style.backgroundColor,
+    taskLocation: document.getElementById("location").value
   };
 
   return informations;
@@ -111,4 +111,4 @@ const taskInformations = function () {
   alert(`タイトル: ${taskTitle.value}\n詳細: ${taskDiscription.value}\n時間: ${taskTime.value}\n日付: ${taskDate.value}`); 
 });*/
 
-export default scheduleVariable;
+export { scheduleVariable, taskInformations };

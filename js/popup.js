@@ -18,6 +18,7 @@ const circles = document.getElementsByClassName("circles");
 const locationPopupWrapper = document.getElementById("locationPopupWrapper");
 const taskLocation = document.getElementById("taskLocation");
 const location = document.getElementById("location");
+const taskInfo = taskInformations();
 // ボタンをクリックしたときにポップアップを表示させる
 clickBtn.addEventListener("click", () => {
   popupWrapper.style.display = "block";
@@ -39,12 +40,7 @@ taskLocation.addEventListener("click", () => {
 Button.addEventListener("click", () => {
   ButtonPopupWrapper.style.visibility = "visible";
   ButtonPopupWrapper.style.display = "block";
-  Button.addEventListener("click", async () => {
-    const taskInput = scheduleVariable();
-    const taskInfo = taskInformations(); // taskInformationsの値を取得
-    console.log(taskInput);
-    console.log(taskInfo); // taskInformationsの内容をコンソールに出力
- });
+  console.log
  
 });
 
@@ -121,7 +117,5 @@ const taskInformations = function () {
 
 export { scheduleVariable, taskInformations };
 
-
-
-const taskInfo = taskInformations();
 console.log(taskInfo);
+

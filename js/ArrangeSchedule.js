@@ -18,13 +18,13 @@ function setInnerHTML(task){
     HTMLcontent += `
       <div class="title">タスク${i + 1}回目</div>
       <div class="dateContainer">
-        <div class="year">${add(data[i].year)}</div>
-        <div class="month">${data[i].month}</div>
-        <div class="day">${data[i].day}</div>
+        <div class="year">${data[i].year}年</div>
+        <div class="month">${data[i].month}月</div>
+        <div class="day">${data[i].day}日</div>
       </div>
       <div class="timeContainer">
         <div class="startTime">${timeUnit(data[i].StartMinutes)}</div>
-        <div class="endTime">${data[i].day}</div>
+        <div class="endTime">${timeUnit(data[i].StartMinutes+data[i].TaskDuration)}</div>
       </div>
       `;
   }

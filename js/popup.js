@@ -39,13 +39,6 @@ taskLocation.addEventListener("click", () => {
 Button.addEventListener("click", () => {
   ButtonPopupWrapper.style.visibility = "visible";
   ButtonPopupWrapper.style.display = "block";
-  Button.addEventListener("click", async () => {
-    const taskInput = scheduleVariable();
-    const taskInfo = taskInformations(); // taskInformationsの値を取得
-    console.log(taskInput);
-    console.log(taskInfo); // taskInformationsの内容をコンソールに出力
- });
- 
 });
 
 // ポップアップの外側又は「x」のマークをクリックしたときポップアップを閉じる
@@ -76,7 +69,6 @@ taskLocation.addEventListener("click", function (e) {
 ButtonContainer.addEventListener("click", function (e) {
   if (e.target.id === ButtonPopupWrapper.id || e.target.id === ButtonClose.id) {
     ButtonPopupWrapper.style.visibility = "hidden";
-    
   }
 });
 // １０色の色のdivタグをクリックしたときに色を変更する
@@ -108,20 +100,10 @@ const scheduleVariable = function () {
 const taskInformations = function () {
   const informations = {
     taskColor: taskColor.style.backgroundColor,
-    taskLocation: document.getElementById("location").value
+    taskLocation: location.value,
   };
 
   return informations;
 };
 
-//テストコード
-/*Button.addEventListener('click', () => {
-  alert(`タイトル: ${taskTitle.value}\n詳細: ${taskDiscription.value}\n時間: ${taskTime.value}\n日付: ${taskDate.value}`); 
-});*/
-
 export { scheduleVariable, taskInformations };
-
-
-
-const taskInfo = taskInformations();
-console.log(taskInfo);

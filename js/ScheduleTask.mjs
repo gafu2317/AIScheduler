@@ -1,55 +1,18 @@
+import express from "express";
 import OpenAI from "openai";
-
-
 import dotenv from "dotenv";
+import cors from "cors";
 
 dotenv.config(); //.envの内容を読み込む
 
 const apiKey = process.env.CHATGPT_KEY;
 const client = new OpenAI({ apiKey: apiKey });
 
-//入力データの例を一時的に作成
-/*const taskInput = {
-  year: 2024,
-  month: 9,
-  day: 14,
-  title: "新しいプロジェクトの計画",
-  description: "プロジェクトの初期計画を立てる。",
-  deadline: {
-    year: 2024,
-    month: 10,
-    day: 15,
-  },
-  taskDuration: 600, 
-};*/
+const app = express();
+const port = 3000;
 
-//  他の日の予定
-/*const OtherSchedule = {
-  schedule: [
-    {
-      year: 2024,
-      month: 9,
-      day: 14,
-      startTime: 600, // 10:00
-      endTime: 660, // 11:00
-    },
-    {
-      year: 2024,
-      month: 9,
-      day: 15,
-      startTime: 720, // 12:00
-      endTime: 780, // 13:00
-    },
-    // その他の予定が続く
-  ],
-};*/
-
-//スケジュールがいくつあるか分からないので、map関数を使って文字列に変換
-const scheduleString = OtherSchedule.schedule
-  .map((item) => {
-    return `${item.year}/${item.month}/${item.day} ${item.startTime} - ${item.endTime}`;
-  })
-  .join(", ");
+app.use(cors()); // CORSを有効にする
+app.use(express.json());
 
 // JSONスキーマ
 const taskOutputSchema = {
@@ -85,7 +48,14 @@ const taskOutputSchema = {
   additionalProperties: false,
 };
 
-const predictTaskTime = async (taskInput) => {
+const predictTaskTime = async (taskInput, OtherSchedule) => {
+  //スケジュールがいくつあるか分からないので、map関数を使って文字列に変換
+  const scheduleString = OtherSchedule.schedule
+    .map((item) => {
+      return `${item.year}/${item.month}/${item.day} ${item.startTime} - ${item.endTime}`;
+    })
+    .join(", ");
+
   //OpenAI APIの呼び出し
   const completion = await client.beta.chat.completions.parse({
     model: "gpt-4o-mini",
@@ -97,15 +67,14 @@ const predictTaskTime = async (taskInput) => {
       },
       {
         role: "user",
-        content: `
-        This task:${taskInput.title}, ${taskInput.description} is expected to take about ${taskInput.taskDuration} minutes. When should I start and how many minutes should I work?
+        content:
+        `This task:${taskInput.title}, ${taskInput.description} is expected to take about ${taskInput.taskDuration} minutes. When should I start and how many minutes should I work?
         Do not schedule tasks between 0 mimutes and ${taskInput.noTaskUntilHour}mimutes. 
         If a task session is too long, please split it and create break times in between.
         Please ensure the total of TaskDuration is ${taskInput.taskDuration}.
         Ensure the task does not overlap with these scheduled plans :${scheduleString}.
         Please output the start time in minutes (e.g., for 12:00, output 720).
-        this period is from today's date:${taskInput.year}/${taskInput.month}/${taskInput.day} to the deadline:${taskInput.deadline.year}/${taskInput.deadline.month}/${taskInput.deadline.day}.
-        // `,
+        this period is from today's date:${taskInput.year}/${taskInput.month}/${taskInput.day} to the deadline:${taskInput.deadline.year}/${taskInput.deadline.month}/${taskInput.deadline.day}.`,
         //旧案
         // content: `
         //   This task:${taskInput.title}, ${taskInput.description} is expected to take about ${taskInput.taskDuration} minutes.
@@ -115,7 +84,7 @@ const predictTaskTime = async (taskInput) => {
         //   Make sure to find time slots that are free.`,
       },
     ],
-    //レスポンスの形式の指定
+    // レスポンスの形式の指定
     response_format: {
       type: "json_schema",
       json_schema: {
@@ -125,14 +94,25 @@ const predictTaskTime = async (taskInput) => {
       },
     },
   });
-
+  console.log("AIの回答");  
   console.log(completion.choices[0].message.parsed);
+  return completion.choices[0].message.parsed;
 };
 
-//predictTaskTime(taskInput);
 
 
+app.post("/predictTaskTime", async (req, res) => {
+  const taskInput = req.body.taskInput;
+  const OtherSchedule = req.body.OtherSchedule;
+  try {
+    const result = await predictTaskTime(taskInput, OtherSchedule);
+    res.json(result);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("サーバーエラー");
+  }
+});
 
-
-export default predictTaskTime;
-
+app.listen(port, () => {
+  console.log(`サーバーが起動しました http://localhost:${port}`);
+});

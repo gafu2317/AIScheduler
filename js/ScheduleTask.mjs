@@ -114,5 +114,6 @@ app.post("/predictTaskTime", async (req, res) => {
 });
 
 app.listen(port, () => {
-  console.log(`サーバーが起動しました http://localhost:${port}`);
+  console.log(`サーバーが起動しました! http://localhost:${port}`);
 });
+

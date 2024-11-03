@@ -22,6 +22,7 @@ Button.addEventListener("click", async() => {
       throw new Error(`エラー：${response.status} ${response.statusText}\n${errorDetail}`);
     }
     const result = await response.json();
+    console.log("レスポンス");
     console.log(result);  
   } catch (error) {
     console.error(error);

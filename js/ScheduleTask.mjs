@@ -1,6 +1,7 @@
 import express from "express";
 import OpenAI from "openai";
 import dotenv from "dotenv";
+import cors from "cors";
 
 dotenv.config(); //.envの内容を読み込む
 
@@ -10,6 +11,7 @@ const client = new OpenAI({ apiKey: apiKey });
 const app = express();
 const port = 3000;
 
+app.use(cors()); // CORSを有効にする
 app.use(express.json());
 
 // JSONスキーマ
@@ -65,15 +67,14 @@ const predictTaskTime = async (taskInput, OtherSchedule) => {
       },
       {
         role: "user",
-        content: `
-        This task:${taskInput.title}, ${taskInput.description} is expected to take about ${taskInput.taskDuration} minutes. When should I start and how many minutes should I work?
+        content:
+        `This task:${taskInput.title}, ${taskInput.description} is expected to take about ${taskInput.taskDuration} minutes. When should I start and how many minutes should I work?
         Do not schedule tasks between 0 mimutes and ${taskInput.noTaskUntilHour}mimutes. 
         If a task session is too long, please split it and create break times in between.
         Please ensure the total of TaskDuration is ${taskInput.taskDuration}.
         Ensure the task does not overlap with these scheduled plans :${scheduleString}.
         Please output the start time in minutes (e.g., for 12:00, output 720).
-        this period is from today's date:${taskInput.year}/${taskInput.month}/${taskInput.day} to the deadline:${taskInput.deadline.year}/${taskInput.deadline.month}/${taskInput.deadline.day}.
-        // `,
+        this period is from today's date:${taskInput.year}/${taskInput.month}/${taskInput.day} to the deadline:${taskInput.deadline.year}/${taskInput.deadline.month}/${taskInput.deadline.day}.`,
         //旧案
         // content: `
         //   This task:${taskInput.title}, ${taskInput.description} is expected to take about ${taskInput.taskDuration} minutes.
@@ -83,7 +84,7 @@ const predictTaskTime = async (taskInput, OtherSchedule) => {
         //   Make sure to find time slots that are free.`,
       },
     ],
-    //レスポンスの形式の指定
+    // レスポンスの形式の指定
     response_format: {
       type: "json_schema",
       json_schema: {
@@ -93,10 +94,12 @@ const predictTaskTime = async (taskInput, OtherSchedule) => {
       },
     },
   });
-
+  console.log("AIの回答");  
   console.log(completion.choices[0].message.parsed);
   return completion.choices[0].message.parsed;
 };
+
+
 
 app.post("/predictTaskTime", async (req, res) => {
   const taskInput = req.body.taskInput;

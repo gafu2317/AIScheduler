@@ -1,8 +1,6 @@
 import scheduleVariable from "./popup.js";
 const Button = document.getElementById("Button");
 
-
-
 Button.addEventListener("click", async() => {
   // const taskInput = scheduleVariable();
   // console.log(taskInput);

@@ -1,9 +1,9 @@
-import scheduleVariable from "./popup.js";
+// import scheduleVariable from "./popup.js";
 const Button = document.getElementById("Button");
 
 Button.addEventListener("click", async () => {
-   const taskInput = scheduleVariable();
-   console.log(taskInput);
+   // const taskInput = scheduleVariable();
+   // console.log(taskInput);
   // try {
   //   const response = await fetch("http://localhost:3000/predictTaskTime", {
   //     method: "POST",
@@ -27,6 +27,7 @@ Button.addEventListener("click", async () => {
   //   console.error(error);
   // }
 });
+
 
 //テスト用データ
 const taskInput = {
@@ -81,3 +82,4 @@ const testResult = {
     },
   ],
 };
+export default testResult;

@@ -6,7 +6,6 @@ const ButtonPopupWrapper = document.getElementById("ButtonPopupWrapper");
 const ButtonClose = document.getElementById("ButtonClose");
 const ButtonContainer = document.getElementById("ButtonContainer");
 const taskTitle = document.getElementById("taskTitle");
-
 const taskDiscription = document.getElementById("taskDiscription");
 const taskTime = document.getElementById("taskTime");
 const taskDate = document.getElementById("taskDate");
@@ -17,6 +16,7 @@ const colorPopupInside = document.getElementById("colorPopupInside");
 const circles = document.getElementsByClassName("circles");
 const locationPopupWrapper = document.getElementById("locationPopupWrapper");
 const taskLocation = document.getElementById("taskLocation");
+const location = document.getElementById("location");
 
 // ボタンをクリックしたときにポップアップを表示させる
 clickBtn.addEventListener("click", () => {
@@ -100,15 +100,10 @@ const scheduleVariable = function () {
 const taskInformations = function () {
   const informations = {
     taskColor: taskColor.style.backgroundColor,
-    taskLocation: taskLocation.value,
+    taskLocation: location.value,
   };
+
   return informations;
 };
 
-
-//テストコード
-/*Button.addEventListener('click', () => {
-  alert(`タイトル: ${taskTitle.value}\n詳細: ${taskDiscription.value}\n時間: ${taskTime.value}\n日付: ${taskDate.value}`); 
-});*/
-
-export default scheduleVariable;
+export { scheduleVariable, taskInformations };

@@ -17,12 +17,40 @@ function setInnerHTML(task){
   for(let i=0;i<data.length;i++){
     HTMLcontent += `
       <div class="title">タスク${i + 1}回目</div>
-      <div class="dateContainer">
-        <div class="year">${data[i].year}年</div>
-        <div class="month">${data[i].month}月</div>
-        <div class="day">${data[i].day}日</div>
-        <div class="startTime">${timeUnit(data[i].StartMinutes)}</div>
-        <div class="endTime">${timeUnit(data[i].StartMinutes+data[i].TaskDuration)}</div>
+      
+      <div class="dateTimeContainer">
+        <div class="dateContainer">
+          <div class="arrangeContainer">
+            <button id="task${i+1}upButton">▲</button>
+            <div class="taskChild" id="task${i+1}year">${data[i].year}年</div>
+            <button id="task${i+1}downButton">▼</button>
+          </div>
+          <div class="arrangeContainer">
+            <button id="task${i+1}upButton">▲</button>
+            <div class="taskChild" id="task${i+1}month">${data[i].month}月</div>
+            <button id="task${i+1}downButton">▼</button>
+          </div>
+          <div class="arrangeContainer">
+            <button id="task${i+1}upButton">▲</button>
+            <div class="taskChild" id="task${i+1}day">${data[i].day}日</div>
+            <button id="task${i+1}downButton">▼</button>
+          </div>
+        </div>
+        <div class="timeContainer">
+          <div class="arrangeContainer">
+            <button id="task${i+1}upButton">▲</button>
+            <div class="taskChild" id="task${i+1}startTime">${timeUnit(data[i].StartMinutes)}  </div>
+            <button id="task${i+1}downButton">▼</button>
+          </div>
+          <div class="kara">〜</div>
+          <div class="arrangeContainer">
+            <button id="task${i+1}upButton">▲</button>
+            <div class="taskChild" id="task${i+1}endTime">${timeUnit(
+              data[i].StartMinutes + data[i].TaskDuration
+            )}</div>
+            <button id="task${i+1}downButton">▼</button>
+          </div>
+        </div>
       </div>
       `;
   }

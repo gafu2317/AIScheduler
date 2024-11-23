@@ -63,8 +63,8 @@ const otherSchedule = {
   ],
 };
 
-//テスト用出力データ
-const testResult = {
+// テスト用出力データ
+const preTestResult = {
   tasks: [
     {
       year: 2024,
@@ -82,4 +82,22 @@ const testResult = {
     },
   ],
 };
+
+// 各タスクに EndMinutes を追加する関数
+function addEndMinutes(tasks) {
+
+  tasks.forEach(task => {
+    task.EndMinutes = task.StartMinutes + task.TaskDuration; // EndMinutes を計算
+    delete task.TaskDuration; // TaskDuration を削除
+  });
+  return tasks; // 修正: タスクの配列を返す
+}
+// testResultを更新
+const testResult = {
+  tasks: addEndMinutes(preTestResult.tasks), // preTestResult.tasksを渡す
+};
+
+console.log(testResult);
+
+
 export default testResult;

@@ -114,11 +114,11 @@
 
 
 .arrangeContainer {
-  margin: 10px;
+  width: 70%;
   display: flex; /* フレックスボックスを使用 */
   flex-direction: column; /* 縦方向に配置 */
   align-items: center; /* 水平方向に中央揃え */
-  justify-content: center; /* 垂直方向に中央揃え */
+  justify-content: space-between; /* 垂直方向に中央揃え */
   height: 100px; /* 高さを指定（必要に応じて調整） */
 }
 
@@ -130,15 +130,16 @@
 
 .dateTimeContainer {
   display: flex;
-  justify-content: space-between; /* 要素間のスペースを均等に分配 */
 }
 
 .dateContainer {
+  width: 50%;
   display: flex;
   justify-content: space-between; /* 要素間のスペースを均等に分配 */
 }
 
 .timeContainer {
+  width: 50%;
   display: flex;
   justify-content: space-between; /* 要素間のスペースを均等に分配 */
 }
@@ -147,6 +148,20 @@
     display: flex; /* フレックスボックスを使用 */
     justify-content: center; /* 水平方向に中央揃え */
     align-items: center; /* 垂直方向に中央揃え */
+}
+
+.border{
+    border: 1px solid #000;
+    width: 100%;
+    height: 100%;
+    margin-top :15px;
+}
+
+.buttonContainer {
+    display: flex; /* フレックスボックスを使用 */
+    justify-content: center; /* 水平方向に中央揃え */
+    align-items: center; /* 垂直方向に中央揃え（必要に応じて） */
+    margin-top: 20px; /* 上部のマージンを設定（必要に応じて） */
 }
 
 #location {

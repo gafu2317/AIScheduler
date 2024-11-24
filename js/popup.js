@@ -99,7 +99,8 @@ const scheduleVariable = function () {
 
 const taskInformations = function () {
   const informations = {
-    taskColor: taskColor.style.backgroundColor,
+    // taskColor の値が空または null の場合、"blue" を設定（なぜか設定前だと値を取得しない）
+    taskColor: taskColor.style.backgroundColor || "blue",
     taskLocation: location.value,
   };
 

@@ -1,10 +1,11 @@
+import { date } from "zod";
 import testResult from "./main";
 console.log("調整前タスク：" + JSON.stringify(testResult.tasks, null, 2));
 const ButtonPopupResult = document.getElementById("ButtonPopupResult");
 
 function displayData() {
   ButtonPopupResult.innerHTML = setInnerHTML();
-  attachEventListeners(); // イベントリスナー
+  attachEventListeners(); // イベントリスナーを追加
 }
 
 const adjustedData = testResult.tasks;
@@ -60,12 +61,6 @@ function setInnerHTML() {
       <div class="border"></div>
       `;
   }
-  // ボタンを追加
-  HTMLcontent += `
-    <div class="buttonContainer">
-      <button id="confirmButton">決定</button>
-    </div>
-  `;
   return HTMLcontent;
 }
 
@@ -178,7 +173,34 @@ function updateEndTime(index, change) {
 function timeUnit(totalminutes) {
   const hours = Math.floor(totalminutes / 60);
   const minutes = totalminutes % 60;
-  return hours + "時間" + minutes + "分";
+  return hours + "時" + minutes + "分";
+}
+
+
+function judgmentAllDay(index){
+  if( adjustedData[index].EndMinutes - adjustedData[index].StartMinutes == 1440){
+    return true;
+  } else {
+    return false;
+  }
+}
+
+function setData (){
+  const finalData = {
+    tasks:[
+      ]
+  }
+  for (let i = 0; i < adjustedData.length; i++){
+    finalData.tasks.push({
+      date:`${adjustedData[i].year}-${adjustedData[i].month}-${adjustedData[i].day}`,
+      StartMinutes:adjustedData[i].StartMinutes,
+      EndMinutes:adjustedData[i].EndMinutes,
+      isAllDay:judgmentAllDay(i)
+    })
+  }
+  return finalData;
 }
 
 displayData();
+
+export default setData;

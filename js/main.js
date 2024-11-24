@@ -1,12 +1,28 @@
-import { scheduleVariable, taskInformations } from "./popup.js";
-
+import { scheduleVariable, taskInformations, } from "./popup.js";
+import setData from "./ArrangeSchedule.js";
 const Button = document.getElementById("Button");
+const confirmButton = document.getElementById("confirmButton");
+function createfinalJSON(){
+
+  const finalResult = setData();
+  const Information = taskInformations();
+
+  finalResult.title = Information.taskTitle;
+  finalResult.discription = Information.taskDiscription;
+  finalResult.color = Information.taskColor;
+  finalResult.location = Information.taskLocation;
+  console.log(finalResult) 
+};
+
+confirmButton.addEventListener("click", () => {
+  createfinalJSON(); // 関数を呼び出して情報を出力
+});
 
 Button.addEventListener("click", async () => {
-  // const taskInput = scheduleVariable();
-  // console.log(taskInput);
-  const taskInformationsdata = taskInformations();
-  console.log(taskInformationsdata.taskColor);
+ /* const taskInput = scheduleVariable();
+  console.log(taskInput);
+  const taskInfo = taskInformations(); 
+  console.log(taskInfo); */
   // try {
   //   const response = await fetch("http://localhost:3000/predictTaskTime", {
   //     method: "POST",
@@ -45,7 +61,9 @@ const taskInput = {
     month: 10,
     day: 15,
   },
+
 };
+taskInput.taskColor
 //テスト用データ
 const otherSchedule = {
   schedule: [
@@ -99,8 +117,6 @@ function addEndMinutes(tasks) {
 const testResult = {
   tasks: addEndMinutes(preTestResult.tasks), // preTestResult.tasksを渡す
 };
-
-console.log(testResult);
 
 
 export default testResult;

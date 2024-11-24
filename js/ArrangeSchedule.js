@@ -178,7 +178,7 @@ function updateEndTime(index, change) {
 function timeUnit(totalminutes) {
   const hours = Math.floor(totalminutes / 60);
   const minutes = totalminutes % 60;
-  return hours + "時間" + minutes + "分";
+  return hours + "時" + minutes + "分";
 }
 
 displayData();

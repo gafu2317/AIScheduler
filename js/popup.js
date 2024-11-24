@@ -99,11 +99,18 @@ const scheduleVariable = function () {
 
 const taskInformations = function () {
   const informations = {
+    taskTitle: taskTitle.value,
+    taskDiscription : taskDiscription.value,
     taskColor: taskColor.style.backgroundColor,
     taskLocation: location.value,
   };
-
+console.log(informations);
+  
   return informations;
 };
+
+Button.addEventListener("click", () => {
+  taskInformations(); // 関数を呼び出して情報を出力
+});
 
 export { scheduleVariable, taskInformations };

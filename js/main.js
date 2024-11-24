@@ -44,7 +44,9 @@ const taskInput = {
     month: 10,
     day: 15,
   },
+
 };
+taskInput.taskColor
 //テスト用データ
 const otherSchedule = {
   schedule: [

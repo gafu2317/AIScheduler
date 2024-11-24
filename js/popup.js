@@ -99,10 +99,11 @@ const scheduleVariable = function () {
 
 const taskInformations = function () {
   const informations = {
+    taskTitle: taskTitle.value,
+    taskDiscription : taskDiscription.value,
     taskColor: taskColor.style.backgroundColor,
     taskLocation: location.value,
-  };
-
+  };  
   return informations;
 };
 

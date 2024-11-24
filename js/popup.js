@@ -17,6 +17,7 @@ const circles = document.getElementsByClassName("circles");
 const locationPopupWrapper = document.getElementById("locationPopupWrapper");
 const taskLocation = document.getElementById("taskLocation");
 const location = document.getElementById("location");
+const confirmButton = document.getElementById("confirmButton");
 
 // ボタンをクリックしたときにポップアップを表示させる
 clickBtn.addEventListener("click", () => {
@@ -71,6 +72,12 @@ ButtonContainer.addEventListener("click", function (e) {
     ButtonPopupWrapper.style.visibility = "hidden";
   }
 });
+
+//タスク追加確認画面の決定ボタンを押したときポップアップを閉じる
+confirmButton.addEventListener("click", () => {
+  ButtonPopupWrapper.style.visibility = "hidden";
+});
+
 // １０色の色のdivタグをクリックしたときに色を変更する
 document.querySelectorAll(".circles").forEach((circles) => {
   circles.addEventListener("click", () => {
@@ -99,9 +106,10 @@ const scheduleVariable = function () {
 
 const taskInformations = function () {
   const informations = {
+    // taskColor の値が空または null の場合、"blue" を設定（なぜか設定前だと値を取得しない）
+    taskColor: taskColor.style.backgroundColor || "blue",
     taskTitle: taskTitle.value,
     taskDiscription : taskDiscription.value,
-    taskColor: taskColor.style.backgroundColor,
     taskLocation: location.value,
   };  
   return informations;

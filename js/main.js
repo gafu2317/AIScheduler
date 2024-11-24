@@ -1,5 +1,26 @@
-import { scheduleVariable, taskInformations } from "./popup.js";
+import { scheduleVariable, taskInformations, } from "./popup.js";
+import{setData}from "./ArrangeSchedule.js";
 const Button = document.getElementById("Button");
+const confirmButton = document.getElementById("confirmButton");
+function createfinalJSON(){
+
+  const finalResult = setData();
+  const Information = taskInformations();
+
+  finalResult.title = Information.taskTitle;
+  finalResult.discription = Information.taskDiscription;
+  finalResult.color = Information.taskColor;
+  finalResult.location = Information.taskLocation;
+  console.log(finalResult) 
+  
+  
+  
+  
+};
+
+confirmButton.addEventListener("click", () => {
+  createfinalJSON(); // 関数を呼び出して情報を出力
+});
 
 Button.addEventListener("click", async () => {
  /* const taskInput = scheduleVariable();

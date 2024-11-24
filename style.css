@@ -108,6 +108,7 @@
   background: white;
   margin: 20% auto;
   padding: 30px;
+  position: relative;
   border-radius: 6px;
   overflow-y: scroll; /* 縦方向のスクロールを有効にする */
 }
@@ -196,6 +197,7 @@
   right: 5px;
   cursor: pointer;
 }
+
 #inputContainer {
   text-align: center;
   height: 75%;

@@ -101,7 +101,5 @@ const testResult = {
   tasks: addEndMinutes(preTestResult.tasks), // preTestResult.tasksを渡す
 };
 
-console.log(testResult);
-
 
 export default testResult;

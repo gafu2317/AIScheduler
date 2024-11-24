@@ -1,10 +1,11 @@
+import { date } from "zod";
 import testResult from "./main";
 console.log("調整前タスク：" + JSON.stringify(testResult.tasks, null, 2));
 const ButtonPopupResult = document.getElementById("ButtonPopupResult");
 
 function displayData() {
   ButtonPopupResult.innerHTML = setInnerHTML();
-  attachEventListeners(); // イベントリスナー
+  attachEventListeners(); // イベントリスナーを追加
 }
 
 const adjustedData = testResult.tasks;
@@ -182,3 +183,32 @@ function timeUnit(totalminutes) {
 }
 
 displayData();
+
+function judgmentAllDay(index){
+  if( adjustedData[index].EndMinutes - adjustedData[index].StartMinutes == 1440){
+    return true;
+  } else {
+    return false;
+  }
+}
+
+
+
+function setData (){
+  const finalData = {
+    tasks:[
+      ]
+  }
+  for (let i = 0; i < adjustedData.length; i++){
+    finalData.tasks.push({
+      date:`${adjustedData[i].year}-${adjustedData[i].month}-${adjustedData[i].day}`,
+      StartMinutes:adjustedData[i].StartMinutes,
+      EndMinutes:adjustedData[i].EndMinutes,
+      isAllDay:judgmentAllDay(i)
+    })
+  }
+  return finalData;
+}
+
+
+export default setData;

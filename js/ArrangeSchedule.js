@@ -6,7 +6,6 @@ const ButtonPopupResult = document.getElementById("ButtonPopupResult");
 function displayData() {
   ButtonPopupResult.innerHTML = setInnerHTML();
   attachEventListeners(); // イベントリスナーを追加
-  attachConfirmButtonListener(); // 確認ボタンのリスナーを追加
 }
 
 const adjustedData = testResult.tasks;
@@ -212,12 +211,4 @@ function setData (){
 }
 
 
-
-function attachConfirmButtonListener() {
-  const confirmButton = document.getElementById("confirmButton");
-  confirmButton.addEventListener("click", () => {
-    console.log("決定");
-    console.log(setData());
-  });
-}
 export default setData;

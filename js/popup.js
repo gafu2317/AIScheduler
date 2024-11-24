@@ -103,14 +103,8 @@ const taskInformations = function () {
     taskDiscription : taskDiscription.value,
     taskColor: taskColor.style.backgroundColor,
     taskLocation: location.value,
-  };
-console.log(informations);
-  
+  };  
   return informations;
 };
-
-Button.addEventListener("click", () => {
-  taskInformations(); // 関数を呼び出して情報を出力
-});
 
 export { scheduleVariable, taskInformations };

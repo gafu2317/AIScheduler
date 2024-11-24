@@ -1,5 +1,5 @@
 import { scheduleVariable, taskInformations, } from "./popup.js";
-import{setData}from "./ArrangeSchedule.js";
+import setData from "./ArrangeSchedule.js";
 const Button = document.getElementById("Button");
 const confirmButton = document.getElementById("confirmButton");
 function createfinalJSON(){
@@ -12,10 +12,6 @@ function createfinalJSON(){
   finalResult.color = Information.taskColor;
   finalResult.location = Information.taskLocation;
   console.log(finalResult) 
-  
-  
-  
-  
 };
 
 confirmButton.addEventListener("click", () => {

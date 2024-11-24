@@ -61,12 +61,6 @@ function setInnerHTML() {
       <div class="border"></div>
       `;
   }
-  // ボタンを追加
-  HTMLcontent += `
-    <div class="buttonContainer">
-      <button id="confirmButton">決定</button>
-    </div>
-  `;
   return HTMLcontent;
 }
 
@@ -182,7 +176,6 @@ function timeUnit(totalminutes) {
   return hours + "時" + minutes + "分";
 }
 
-displayData();
 
 function judgmentAllDay(index){
   if( adjustedData[index].EndMinutes - adjustedData[index].StartMinutes == 1440){
@@ -191,8 +184,6 @@ function judgmentAllDay(index){
     return false;
   }
 }
-
-
 
 function setData (){
   const finalData = {
@@ -210,5 +201,6 @@ function setData (){
   return finalData;
 }
 
+displayData();
 
 export default setData;

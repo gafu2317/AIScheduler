@@ -93,4 +93,18 @@ document.addEventListener("DOMContentLoaded", function () {
         console.error("Login error:", error);
       });
   });
+  // ユーザーのログアウト
+  document
+    .getElementById("sign-out-button")
+    .addEventListener("click", async () => {
+      signOut(auth)
+        .then(() => {
+          // サインアウト成功
+          console.log("User signed out successfully");
+        })
+        .catch((error) => {
+          // エラー処理
+          console.error("Error during sign-out:", error);
+        });
+    });
 });

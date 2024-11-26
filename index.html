@@ -2,6 +2,7 @@
 <html lang="ja">
   <head>
     <meta charset="UTF-8" />
+    <link rel="stylesheet" href="./style.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <style>
@@ -25,6 +26,120 @@
     <script src="https://www.gstatic.com/firebasejs/9.x.x/firebase-auth.js"></script>
 
   </head>
+  <body id="all">
+    <div id="buttonContainer">
+      <button id="clickBtn">タスク追加ボタン</button>
+    </div>
+    <div id="popupWrapper">
+      <div id="popupInside">
+        <div id="close">x</div>
+        <div id="inputContainer">
+          <input
+            type="text"
+            id="taskTitle"
+            placeholder="タスクのタイトルを入力"
+          />
+          <textarea
+            type="textarea"
+            id="taskDiscription"
+            placeholder="タスクの詳細を入力"
+          ></textarea>
+        </div>
+        <div id="taskDateDiscription">タスクの期限を入力</div>
+        <div id="optionContainer">
+          <input type="date" id="taskDate" />
+          <input type="text" id="taskTime" placeholder="タスクの時間を入力" />
+          <div id="taskColor">
+            <div id="colorPopupWrapper">
+              <div id="colorPopupInside">
+                <div id="circleContainer">
+                  <div id="circleUpperLow">
+                    <div id="circleRed" class="circles" data-color="red"></div>
+                    <div
+                      id="circleBlue"
+                      class="circles"
+                      data-color="blue"
+                    ></div>
+                    <div
+                      id="circleYellow"
+                      class="circles"
+                      data-color="yellow"
+                    ></div>
+                    <div
+                      id="circleGreen"
+                      class="circles"
+                      data-color="green"
+                    ></div>
+                    <div
+                      id="circleOrange"
+                      class="circles"
+                      data-color="orange"
+                    ></div>
+                  </div>
+                  <div id="circleLowerLow">
+                    <div
+                      id="circlePurple"
+                      class="circles"
+                      data-color="purple"
+                    ></div>
+                    <div
+                      id="circlePink"
+                      class="circles"
+                      data-color="pink"
+                    ></div>
+                    <div
+                      id="circleBrown"
+                      class="circles"
+                      data-color="brown"
+                    ></div>
+                    <div
+                      id="circleCyan"
+                      class="circles"
+                      data-color="cyan"
+                    ></div>
+                    <div
+                      id="circleMagenta"
+                      class="circles"
+                      data-color="magenta"
+                    ></div>
+                  </div>
+                </div>
+                <div id="colorClose">x</div>
+              </div>
+            </div>
+          </div>
+          <div id="taskLocation">
+            <div id="locationPopupWrapper">
+              <div id="locationPopupInside">
+                <div id="locationClose">x</div>
+                <textarea
+                  type="text"
+                  id="location"
+                  placeholder="タスクをする場所を入力"
+                ></textarea>
+              </div>
+            </div>
+            <img src="public/img/場所のアイコン.jpg" alt="場所のアイコン" />
+          </div>
+        </div>
+        <div id="ButtonContainer">
+          <div id="ButtonPopupWrapper">
+            <div id="ButtonPopupInside">
+              <div id="ButtonClose">x</div>
+              <div id="ButtonPopupResult"></div>
+              <div class="buttonContainer">
+                <button id="confirmButton">決定</button>
+              </div>
+            </div>
+          </div>
+          <button id="Button">タスクを追加</button>
+        </div>
+      </div>
+    </div>
+    <script type="module" src="js/popup.js"></script>
+    <script type="module" src="js/main.js"></script>
+    <script type="module" src="js/ArrangeSchedule.js"></script>
+  </body>
   <body>
     <div id="app"></div>
     <script type="module" src="/calendar.js"></script>

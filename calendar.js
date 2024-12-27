@@ -15,12 +15,21 @@ import {
   where,
   addDoc,
   getFirestore,
-
   // createCollectionAndAddDocument,
 } from "firebase/firestore";
 document.addEventListener("DOMContentLoaded", function () {
   var calendarMonthEl = document.getElementById("calendar-month");
   var calendarDayEl = document.getElementById("calendar-day");
+
+  const modal = document.getElementById("event-modal");
+  const modalTitle = document.getElementById("modal-title");
+  const modalStart = document.getElementById("modal-start");
+  const modalEnd = document.getElementById("modal-end");
+  const modalClose = document.getElementById("modal-close");
+
+  modalClose.addEventListener("click", () => {
+    modal.style.display = "none";
+  });
 
   // 月表示のカレンダー
   var calendarMonth = new Calendar(calendarMonthEl, {
@@ -34,6 +43,14 @@ document.addEventListener("DOMContentLoaded", function () {
     dateClick: function (info) {
       calendarDay.gotoDate(info.dateStr);
     },
+    eventClick: function (info) {
+      modal.style.display = "block";
+      modalTitle.textContent = info.event.title;
+      modalStart.textContent = `開始: ${info.event.start.toLocaleString()}`;
+      modalEnd.textContent = info.event.end
+        ? `終了: ${info.event.end.toLocaleString()}`
+        : "終了: なし";
+    },
   });
 
   // 日表示のカレンダー
@@ -46,6 +63,14 @@ document.addEventListener("DOMContentLoaded", function () {
       { title: "イベント1", start: "2024-09-10T09:00:00" },
       { title: "イベント2", start: "2024-09-12T13:00:00" },
     ],
+    eventClick: function (info) {
+      modal.style.display = "block";
+      modalTitle.textContent = info.event.title;
+      modalStart.textContent = `開始: ${info.event.start.toLocaleString()}`;
+      modalEnd.textContent = info.event.end
+        ? `終了: ${info.event.end.toLocaleString()}`
+        : "終了: なし";
+    },
   });
 
   calendarMonth.render();

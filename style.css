@@ -27,7 +27,7 @@
   align-items: center;
   /* display: flex; */
   justify-content: center;
-  z-index: 1000; /* 高いz-indexを設定 */
+  z-index: 2000;
 }
 
 #colorPopupWrapper {
@@ -70,7 +70,7 @@
   padding: 20px;
   position: relative;
   border-radius: 10px;
-  z-index: 1001; /* ポップアップコンテンツのz-indexを設定 */
+  z-index: 3000; /* ポップアップコンテンツのz-indexを設定 */
 }
 
 #colorPopupInside {
@@ -315,4 +315,20 @@
 
 #circleMagenta {
   background-color: magenta;
+}
+
+
+#calendar-container {
+  display: flex;
+  justify-content: space-between; /* カレンダーの間にスペースを入れる */
+  gap: 20px; /* カレンダーの間のギャップ */
+  z-index: 1000;
+}
+
+/* カレンダーのサイズを調整 */
+#calendar-day {
+  width: 40%; /* 各カレンダーの幅を調整 */
+}
+#calendar-month{
+  width: 50%;
 }

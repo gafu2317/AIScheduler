@@ -36,12 +36,6 @@ taskLocation.addEventListener("click", () => {
   locationPopupWrapper.style.display = "block";
 });
 
-//タスク追加ボタンを押したときにポップアップを表示させる
-Button.addEventListener("click", () => {
-  ButtonPopupWrapper.style.visibility = "visible";
-  ButtonPopupWrapper.style.display = "block";
-});
-
 // ポップアップの外側又は「x」のマークをクリックしたときポップアップを閉じる
 popupWrapper.addEventListener("click", (e) => {
   if (e.target.id === popupWrapper.id || e.target.id === close.id) {
@@ -76,6 +70,7 @@ ButtonContainer.addEventListener("click", function (e) {
 //タスク追加確認画面の決定ボタンを押したときポップアップを閉じる
 confirmButton.addEventListener("click", () => {
   ButtonPopupWrapper.style.visibility = "hidden";
+  popupWrapper.style.display = "none";
 });
 
 // １０色の色のdivタグをクリックしたときに色を変更する

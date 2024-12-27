@@ -27,6 +27,7 @@
   align-items: center;
   /* display: flex; */
   justify-content: center;
+  z-index: 2000;
 }
 
 #colorPopupWrapper {
@@ -314,4 +315,20 @@
 
 #circleMagenta {
   background-color: magenta;
+}
+
+
+#calendar-container {
+  display: flex;
+  justify-content: space-between; /* カレンダーの間にスペースを入れる */
+  gap: 20px; /* カレンダーの間のギャップ */
+  z-index: 1000;
+}
+
+/* カレンダーのサイズを調整 */
+#calendar-day {
+  width: 40%; /* 各カレンダーの幅を調整 */
+}
+#calendar-month{
+  width: 50%;
 }

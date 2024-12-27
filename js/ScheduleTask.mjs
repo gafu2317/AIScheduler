@@ -35,11 +35,11 @@ const taskOutputSchema = {
           StartMinutes: {
             type: "integer",
           },
-          TaskDuration: {
+          EndMinutes: {
             type: "integer",
           },
         },
-        required: ["year", "month", "day", "StartMinutes", "TaskDuration"],
+        required: ["year", "month", "day", "StartMinutes", "EndMinutes"],
         additionalProperties: false,
       },
     },

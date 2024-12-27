@@ -1,37 +1,45 @@
 import { scheduleVariable, taskInformations, } from "./popup.js";
-import setData from "./ArrangeSchedule.js";
-import { date } from "zod";
+import { setData, displayData, setDisplayData } from "./ArrangeSchedule.js";
 const Button = document.getElementById("Button");
+const ButtonPopupWrapper = document.getElementById("ButtonPopupWrapper");
 const confirmButton = document.getElementById("confirmButton");
+let result;
+let finalResult;
 
 Button.addEventListener("click", async () => {
-  // const taskInput = scheduleVariable();
-  // try {
-  //   const response = await fetch("http://localhost:3000/predictTaskTime", {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //     body: JSON.stringify({
-  //       taskInput: taskInput,
-  //       OtherSchedule: otherSchedule,
-  //     }),
-  //   });
-  //   if (!response.ok) {
-  //     const errorDetail = await response.text();
-  //     throw new Error(
-  //       `エラー：${response.status} ${response.statusText}\n${errorDetail}`
-  //     );
-  //   }
-  //   const result = await response.json();
-  //   console.log(result);
-  // } catch (error) {
-  //   console.error(error);
-  // }
+  const taskInput = scheduleVariable();
+  try {
+    const response = await fetch("http://localhost:3000/predictTaskTime", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        taskInput: taskInput,
+        OtherSchedule: otherSchedule,//  連携できてない
+      }),
+    });
+    if (!response.ok) {
+      const errorDetail = await response.text();
+      throw new Error(
+        `エラー：${response.status} ${response.statusText}\n${errorDetail}`
+      );
+    }
+    result = await response.json();
+    console.log(result);
+    console.log(result.tasks);  
+    ButtonPopupWrapper.style.visibility = "visible";
+    ButtonPopupWrapper.style.display = "block";
+    setDisplayData(result);
+    displayData();
+  } catch (error) {
+    console.error(error);
+  }
 });
 
+// 最終的なデータの形を作る関数
 function createfinalJSON() {
-  const finalResult = setData();
+  finalResult = setData();
   const Information = taskInformations();
 
   finalResult.title = Information.taskTitle;
@@ -39,13 +47,27 @@ function createfinalJSON() {
   finalResult.color = Information.taskColor;
   finalResult.location = Information.taskLocation;
   console.log(finalResult);
+  return finalResult;
 }
 
-//データの形
+// 決定ボタンを押したときに最終的なデータの形を作る
+confirmButton.addEventListener("click", () => {
+  finalResult = createfinalJSON(); // 関数を呼び出して情報を出力
+});
+
+export { result, testResult, finalResult, testFinalResult };
+
+//最終的なデータの形（テスト）
 const testFinalResult = {
-  task:[
-    {date: "2024-09-14", StartMinutes: 660, EndMinutes: 720, isAllday: false},//時間もdateに含める
-    {date: "2024-09-14", StartMinutes: 780, EndMinutes: 840, isAllday: false},
+  tasks:[{
+    date: new Date(2024, 8, 14, 10, 0),
+    endDate: new Date(2024, 8, 14, 11, 0),
+    isAllDay: false},
+    {
+      date: new Date(2024, 8, 14, 12, 0),
+      endDate: new Date(2024, 8, 14, 13, 0),
+      isAllDay: false,
+    },
   ],
   title: "新しいプロジェクトの計画",
   discription: "プロジェクトの初期計画を立てる。",
@@ -53,29 +75,27 @@ const testFinalResult = {
   location: "東京",
 };
 
-
-confirmButton.addEventListener("click", () => {
-  createfinalJSON(); // 関数を呼び出して情報を出力
-});
-
-
-//テスト用データ
-const taskInput = {
-  year: 2024,
-  month: 9,
-  day: 14,
-  title: "新しいプロジェクトの計画",
-  description: "プロジェクトの初期計画を立てる。",
-  taskDuration: 120,
-  deadline: {
-    year: 2024,
-    month: 10,
-    day: 15,
-  },
-
+// テスト用出力データ
+const testResult = {
+  tasks: [
+    {
+      year: 2024,
+      month: 9,
+      day: 14,
+      StartMinutes: 660,
+      EndMinutes: 720,
+    },
+    {
+      year: 2024,
+      month: 9,
+      day: 14,
+      StartMinutes: 780,
+      EndMinutes: 840,
+    },
+  ],
 };
-taskInput.taskColor
-//テスト用データ
+
+//テスト用データ(すでにある予定)
 const otherSchedule = {
   schedule: [
     {
@@ -94,39 +114,19 @@ const otherSchedule = {
     },
   ],
 };
+//テスト用データ
+const taskInput = {
+  year: 2024,
+  month: 9,
+  day: 14,
+  title: "新しいプロジェクトの計画",
+  description: "プロジェクトの初期計画を立てる。",
+  taskDuration: 120,
+  deadline: {
+    year: 2024,
+    month: 10,
+    day: 15,
+  },
 
-// テスト用出力データ
-const preTestResult = {
-  tasks: [
-    {
-      year: 2024,
-      month: 9,
-      day: 14,
-      StartMinutes: 660,
-      TaskDuration: 60,
-    },
-    {
-      year: 2024,
-      month: 9,
-      day: 14,
-      StartMinutes: 780,
-      TaskDuration: 60,
-    },
-  ],
 };
 
-// 各タスクに EndMinutes を追加する関数
-function addEndMinutes(tasks) {
-
-  tasks.forEach(task => {
-    task.EndMinutes = task.StartMinutes + task.TaskDuration; // EndMinutes を計算
-    delete task.TaskDuration; // TaskDuration を削除
-  });
-  return tasks; // 修正: タスクの配列を返す
-}
-// testResultを更新
-const testResult = {
-  tasks: addEndMinutes(preTestResult.tasks), // preTestResult.tasksを渡す
-};
-
-export default testResult;

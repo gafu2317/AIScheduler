@@ -1,13 +1,38 @@
-import testResult from "./main";
-console.log("調整前タスク：" + JSON.stringify(testResult.tasks, null, 2));
+// import {testResult, result} from "./main";
+// const result = testResult;//テストの時に使う
 const ButtonPopupResult = document.getElementById("ButtonPopupResult");
+let adjustedData;// 調整するデータ
+
+function setDisplayData(result) {
+  adjustedData = result.tasks;
+}
 
 function displayData() {
   ButtonPopupResult.innerHTML = setInnerHTML();
   attachEventListeners(); // イベントリスナーを追加
 }
 
-const adjustedData = testResult.tasks;
+// データを整形
+function setData() {
+  const finalData = {
+    tasks: [],
+  };
+
+  for (let i = 0; i < adjustedData.length; i++) {
+    const startHours = Math.floor(adjustedData[i].StartMinutes / 60);
+    const startMinutes = adjustedData[i].StartMinutes % 60;
+    const endHours = Math.floor(adjustedData[i].EndMinutes / 60);
+    const endMinutes = adjustedData[i].EndMinutes % 60;
+
+    finalData.tasks.push({
+      date: new Date(adjustedData[i].year, adjustedData[i].month - 1, adjustedData[i].day, startHours, startMinutes), // 開始時刻を含む
+      endDate: new Date(adjustedData[i].year, adjustedData[i].month - 1, adjustedData[i].day, endHours, endMinutes), // 終了時刻を含む
+      isAllDay: judgmentAllDay(i),
+    });
+  }
+
+  return finalData;
+}
 
 function setInnerHTML() {
   let HTMLcontent = `<div></div>`;
@@ -175,31 +200,15 @@ function timeUnit(totalminutes) {
   return hours + "時" + minutes + "分";
 }
 
-
-function judgmentAllDay(index){
-  if( adjustedData[index].EndMinutes - adjustedData[index].StartMinutes == 1440){
+function judgmentAllDay(index) {
+  if (
+    adjustedData[index].EndMinutes - adjustedData[index].StartMinutes ==
+    1440
+  ) {
     return true;
   } else {
     return false;
   }
 }
 
-function setData (){
-  const finalData = {
-    tasks:[
-      ]
-  }
-  for (let i = 0; i < adjustedData.length; i++){
-    finalData.tasks.push({
-      date:`${adjustedData[i].year}-${adjustedData[i].month}-${adjustedData[i].day}`,
-      StartMinutes:adjustedData[i].StartMinutes,
-      EndMinutes:adjustedData[i].EndMinutes,
-      isAllDay:judgmentAllDay(i)
-    })
-  }
-  return finalData;
-}
-
-displayData();
-
-export default setData;
+export { setData, displayData, setDisplayData };

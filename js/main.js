@@ -1,5 +1,6 @@
 import { scheduleVariable, taskInformations, } from "./popup.js";
 import setData from "./ArrangeSchedule.js";
+import { date } from "zod";
 const Button = document.getElementById("Button");
 const confirmButton = document.getElementById("confirmButton");
 
@@ -39,6 +40,19 @@ function createfinalJSON() {
   finalResult.location = Information.taskLocation;
   console.log(finalResult);
 }
+
+//データの形
+const testFinalResult = {
+  task:[
+    {date: "2024-09-14", StartMinutes: 660, EndMinutes: 720, isAllday: false},//時間もdateに含める
+    {date: "2024-09-14", StartMinutes: 780, EndMinutes: 840, isAllday: false},
+  ],
+  title: "新しいプロジェクトの計画",
+  discription: "プロジェクトの初期計画を立てる。",
+  color: "blue",
+  location: "東京",
+};
+
 
 confirmButton.addEventListener("click", () => {
   createfinalJSON(); // 関数を呼び出して情報を出力
@@ -114,6 +128,5 @@ function addEndMinutes(tasks) {
 const testResult = {
   tasks: addEndMinutes(preTestResult.tasks), // preTestResult.tasksを渡す
 };
-
 
 export default testResult;

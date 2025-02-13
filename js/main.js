@@ -1,5 +1,8 @@
-import { scheduleVariable, taskInformations, } from "./popup.js";
+import { scheduleVariable, taskInformations } from "./popup.js";
 import { setData, displayData, setDisplayData } from "./ArrangeSchedule.js";
+import { addEventToCalendar, addEventsToFirestore } from "./calendar.js";
+import { addEventToGoogleCalendar } from "./googleCalendar.js";
+
 const Button = document.getElementById("Button");
 const ButtonPopupWrapper = document.getElementById("ButtonPopupWrapper");
 const confirmButton = document.getElementById("confirmButton");
@@ -8,33 +11,51 @@ let finalResult;
 
 Button.addEventListener("click", async () => {
   const taskInput = scheduleVariable();
-  try {
-    const response = await fetch("http://localhost:3000/predictTaskTime", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        taskInput: taskInput,
-        OtherSchedule: otherSchedule,//  連携できてない
-      }),
-    });
-    if (!response.ok) {
-      const errorDetail = await response.text();
-      throw new Error(
-        `エラー：${response.status} ${response.statusText}\n${errorDetail}`
-      );
-    }
-    result = await response.json();
-    console.log(result);
-    console.log(result.tasks);  
-    ButtonPopupWrapper.style.visibility = "visible";
-    ButtonPopupWrapper.style.display = "block";
-    setDisplayData(result);
-    displayData();
-  } catch (error) {
-    console.error(error);
-  }
+  // try {
+  //   const response = await fetch("http://localhost:3000/predictTaskTime", {
+  //     method: "POST",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //     body: JSON.stringify({
+  //       taskInput: taskInput,
+  //       OtherSchedule: otherSchedule,//  連携できてない
+  //     }),
+  //   });
+  //   if (!response.ok) {
+  //     const errorDetail = await response.text();
+  //     throw new Error(
+  //       `エラー：${response.status} ${response.statusText}\n${errorDetail}`
+  //     );
+  //   }
+  //   result = await response.json();
+  result = testFinalResult;
+  addEventToCalendar(result);
+  console.log(result);
+  console.log(result.tasks);
+
+  await addEventsToFirestore(result);
+  result.tasks.forEach(async (task) => {
+    const taskData = {
+      title: result.title || "未設定のタイトル",
+      description: result.description || "",
+      start: task.date || new Date(),
+      end: task.endDate || new Date(),
+      allDay: task.isAllDay ?? false,
+      backgroundColor: result.color || "blue",
+    };
+
+    // Firestore に追加後、Google カレンダーにも追加
+    await addEventToGoogleCalendar(taskData);
+  });
+  //await addEventToGoogleCalendar(taskData);
+  ButtonPopupWrapper.style.visibility = "visible";
+  ButtonPopupWrapper.style.display = "block";
+  setDisplayData(result);
+  displayData();
+  // } catch (error) {
+  //   console.error(error);
+  // }
 });
 
 // 最終的なデータの形を作る関数
@@ -59,10 +80,12 @@ export { result, testResult, finalResult, testFinalResult };
 
 //最終的なデータの形（テスト）
 const testFinalResult = {
-  tasks:[{
-    date: new Date(2024, 8, 14, 10, 0),
-    endDate: new Date(2024, 8, 14, 11, 0),
-    isAllDay: false},
+  tasks: [
+    {
+      date: new Date(2024, 8, 14, 10, 0),
+      endDate: new Date(2024, 8, 14, 11, 0),
+      isAllDay: false,
+    },
     {
       date: new Date(2024, 8, 14, 12, 0),
       endDate: new Date(2024, 8, 14, 13, 0),
@@ -70,7 +93,7 @@ const testFinalResult = {
     },
   ],
   title: "新しいプロジェクトの計画",
-  discription: "プロジェクトの初期計画を立てる。",
+  description: "プロジェクトの初期計画を立てる。",
   color: "blue",
   location: "東京",
 };
@@ -127,6 +150,4 @@ const taskInput = {
     month: 10,
     day: 15,
   },
-
 };
-

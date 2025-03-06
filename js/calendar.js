@@ -1,23 +1,7 @@
 import { Calendar } from "@fullcalendar/core";
 import dayGridPlugin from "@fullcalendar/daygrid"; // dayGrid プラグイン
 import timeGridPlugin from "@fullcalendar/timegrid"; // timeGrid プラグイン
-import { db, auth, provider } from "./fire.js";
-import { signInWithPopup, signOut } from "firebase/auth";
-import {
-  collection,
-  doc,
-  getDoc,
-  getDocs,
-  setDoc,
-  updateDoc,
-  onSnapshot,
-  query,
-  where,
-  addDoc,
-  getFirestore,
-  // createCollectionAndAddDocument,
-} from "firebase/firestore";
-let userId;
+
 var calendarMonthEl = document.getElementById("calendar-month");
 var calendarDayEl = document.getElementById("calendar-day");
 
@@ -26,7 +10,7 @@ const modalTitle = document.getElementById("modal-title");
 const modalStart = document.getElementById("modal-start");
 const modalEnd = document.getElementById("modal-end");
 const modalClose = document.getElementById("modal-close");
-console.log("ok");
+
 modalClose.addEventListener("click", () => {
   modal.style.display = "none";
 });
@@ -72,141 +56,53 @@ var calendarDay = new Calendar(calendarDayEl, {
       : "終了: なし";
   },
 });
-document.addEventListener("DOMContentLoaded", function () {
+
+document.addEventListener("DOMContentLoaded", async function () {
   calendarMonth.render();
   calendarDay.render();
   const loginButton = document.getElementById("loginButton");
   const userNameElement = document.getElementById("userName");
-  // ユーザーのログイン状態を監視（ページリロード後も `uid` を維持）
-  auth.onAuthStateChanged(async (user) => {
-    if (user) {
-      // ユーザーがログインしている場合
-      const userId = user.uid;
-      localStorage.setItem("firebaseUid", userId); // `uid` を `localStorage` に保存
-      userNameElement.textContent = user.displayName;
 
-      console.log("ユーザー認証済み:", userId);
-      await fetchGoogleCalendarEvents();
-      // Firestoreからユーザーの予定を取得
-      const q = query(collection(db, userId));
-      const querySnapshot = await getDocs(q);
-
-      querySnapshot.forEach((doc) => {
-        const data = doc.data();
-        calendarMonth.addEvent({
-          id: doc.id,
-          title: data.title,
-          start: data.start.toDate(),
-          end: data.end.toDate(),
-          allDay: data.allDay,
-          backgroundColor: data.backgroundColor,
-        });
-        calendarDay.addEvent({
-          id: doc.id,
-          title: data.title,
-          start: data.start.toDate(),
-          end: data.end.toDate(),
-          allDay: data.allDay,
-          backgroundColor: data.backgroundColor,
-        });
-      });
-    } else {
-      // ログインしていない場合
-      console.log("ユーザー未認証");
-      localStorage.removeItem("firebaseUid"); // ログアウト時に `uid` を削除
-      userNameElement.textContent = "ログインしてください";
-    }
-  });
-
-  // ログイン処理
-  loginButton.addEventListener("click", async () => {
-    try {
-      const result = await signInWithPopup(auth, provider);
-      if (result.user) {
-        const userId = result.user.uid;
-        const token = result._tokenResponse.oauthAccessToken;
-
-        localStorage.setItem("firebaseUid", userId); // ログイン後も `uid` を保存
-        //localStorage.setItem("googleToken", token); // Google API トークンを保存
-        window.location.href = "http://localhost:3000/auth";
-        console.log("ログイン成功:", userId);
-      }
-    } catch (error) {
-      console.error("ログインエラー:", error);
-    }
-    // loginButton.addEventListener("click", () => {
-    //   signInWithPopup(auth, provider)
-    //     .then(async (result) => {
-    //       if (result.user != null) {
-    //         userId = result.user.uid;
-    //         console.log(result.user.uid);
-    //         userNameElement.textContent = result.user.displayName;
-    //         const token = result._tokenResponse.oauthAccessToken;
-    //         console.log("Google API トークン:", token);
-
-    //         localStorage.setItem("googleToken", token);
-    //         // Firestoreからユーザーの予定を取得
-    //         const q = query(collection(db, userId));
-
-    //         const querySnapshot = await getDocs(q);
-    //         querySnapshot.forEach((doc) => {
-    //           // doc.data() is never undefined for query doc snapshots
-    //           const data = doc.data();
-
-    //           // イベントをカレンダーに追加
-    //           calendarMonth.addEvent({
-    //             id: doc.id,
-    //             title: data.title,
-    //             start: data.start.toDate(), // Firestore Timestamp -> JS Dateに変換
-    //             end: data.end.toDate(),
-    //             allDay: data.allDay,
-    //             backgroundColor: data.backgroundColor,
-    //           });
-    //           calendarDay.addEvent({
-    //             id: doc.id,
-    //             title: data.title,
-    //             start: data.start.toDate(), // Firestore Timestamp -> JS Dateに変換
-    //             end: data.end.toDate(),
-    //             allDay: data.allDay,
-    //             backgroundColor: data.backgroundColor,
-    //           });
-    //           console.log(doc.id, " => ", doc.data());
-    //         });
-    //       }
-    //     })
-    //     .catch((error) => {
-    //       console.error("Login error:", error);
-    //     });
-  });
-  // ユーザーのログアウト
-  document
-    .getElementById("sign-out-button")
-    .addEventListener("click", async () => {
-      try {
-        await signOut(auth);
-        localStorage.removeItem("firebaseUid"); // ✅ `uid` を削除
-        localStorage.removeItem("googleToken"); // ✅ Google API トークンも削除
-        console.log("✅ ログアウトしました");
-        window.location.reload(); // ページをリロード
-      } catch (error) {
-        console.error("❌ ログアウトエラー:", error);
-      }
-    });
-});
-// 🔹 Google OAuth のトークンを取得
-async function fetchGoogleToken() {
+  // Google OAuth のトークンを取得(クエリパラメータまたはローカルストレージ)
   const urlParams = new URLSearchParams(window.location.search);
-  const googleToken = urlParams.get("token");
-
+  let googleToken = urlParams.get("token");
   if (googleToken) {
     localStorage.setItem("googleToken", googleToken);
-    console.log("✅ Google カレンダー API トークン取得:", googleToken);
+  } else {
+    googleToken = localStorage.getItem("googleToken");
   }
-}
 
-// 🔹 ページロード時に Google トークンを取得
-window.onload = fetchGoogleToken;
+  if (googleToken) {
+    console.log("✅ Google トークンを検出:", googleToken);
+    userNameElement.textContent = "Google カレンダーと同期中...";
+    await fetchGoogleCalendarEvents(googleToken); // Google カレンダーの予定を取得
+    userNameElement.textContent = "Google カレンダーの予定取得成功";
+  } else {
+    console.log("🔹 Google トークンなし。ログインが必要です。");
+    userNameElement.textContent = "ログインしてください";
+  }
 
+  loginButton.addEventListener("click", () => {
+    // バックエンド(ScheduleTask.mjs)でログイン処理
+    window.location.href = "http://localhost:3000/auth";
+  });
+
+  // ユーザーのログアウト
+  document.getElementById("sign-out-button").addEventListener("click", () => {
+    try {
+      // ローカルストレージからgoogleTokenを削除
+      localStorage.removeItem("googleToken"); // ✅ Google API トークンも削除
+      // URLからクエリパラメータを削除
+      window.history.replaceState({}, document.title, "/");
+      window.location.href = "https://accounts.google.com/logout";
+      console.log("✅ ログアウトしました");
+      window.location.reload(); // ページをリロード
+    } catch (error) {
+      console.error("❌ ログアウトエラー:", error);
+    }
+  });
+});
+// AIの回答をカレンダーに追加（main.jsで使用）
 export function addEventToCalendar(taskData) {
   taskData.tasks.forEach((task, index) => {
     const eventId = `testEvent-${index}`;
@@ -234,41 +130,9 @@ export function addEventToCalendar(taskData) {
 
   console.log("カレンダーにイベントを追加しました:", taskData);
 }
-export async function addEventsToFirestore(eventData) {
-  const userId = localStorage.getItem("firebaseUid"); // ✅ ローカルストレージから取得
 
-  if (!userId) {
-    console.error(
-      "❌ Firestore にイベントを追加できません。ユーザーが未認証です。"
-    );
-    return;
-  }
-  console.log(eventData.tasks);
-  try {
-    const userCollection = collection(db, userId); // Firestoreのユーザーデータを参照
-
-    for (const task of eventData.tasks) {
-      console.log(task);
-      await addDoc(userCollection, {
-        title: eventData.title,
-        description: eventData.description,
-        start: task.date, // そのままDate型で保存
-        end: task.endDate, // FirestoreのTimestampとして保存
-        allDay: task.isAllDay,
-        backgroundColor: eventData.color || "blue",
-        // createdAt: new Date(),
-      });
-    }
-
-    console.log("Firestoreにイベントを追加しました:", eventData);
-  } catch (error) {
-    console.error("Firestoreにイベントを追加中にエラーが発生:", error);
-  }
-}
-// 🔹 Google カレンダーの予定を取得してレンダーに追加
-async function fetchGoogleCalendarEvents() {
-  const googleToken = localStorage.getItem("googleToken");
-
+// 🔹 Google カレンダーの予定を取得してカレンダーに追加
+async function fetchGoogleCalendarEvents(googleToken) {
   if (!googleToken) {
     console.error("❌ Google トークンがありません。再ログインが必要です。");
     return;

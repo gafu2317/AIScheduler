@@ -12,8 +12,22 @@
 }
 
 #buttonContainer {
+  /* align-items: center;
+  justify-content: center; */
+  display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between; /* ボタンとユーザー名を左右に配置 */
+  width: 100%; /* 親コンテナの幅を最大に */
+  max-width: 500px; /* ボタンのサイズに合わせる */
+  margin: 0 auto; /* 中央配置 */
+  padding: 10px;
+}
+
+#userName {
+  font-size: 16px;
+  color: #304060;
+  margin-left: 10px;
+  white-space: nowrap; /* ユーザー名が長くても改行しない */
 }
 
 #popupWrapper {

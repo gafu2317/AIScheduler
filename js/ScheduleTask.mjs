@@ -1,4 +1,5 @@
 import express from "express";
+import session from "express-session";
 import OpenAI from "openai";
 import { google } from "googleapis";
 import dotenv from "dotenv";
@@ -12,8 +13,22 @@ const client = new OpenAI({ apiKey: apiKey });
 const app = express();
 const port = 3000;
 
-app.use(cors()); // CORSを有効にする
+// app.use(cors()); // CORSを有効にする
+app.use(
+  cors({
+    origin: "http://localhost:5173", // ✅ クライアントのURLを指定
+    credentials: true, // ✅ セッション維持のため必須
+  })
+);
 app.use(express.json());
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET || "your-secret-key",
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: false }, // HTTPS 環境なら `true`
+  })
+);
 
 // JSONスキーマ
 const taskOutputSchema = {
@@ -129,12 +144,14 @@ app.get("/auth", (req, res) => {
   const authUrl = oauth2Client.generateAuthUrl({
     access_type: "offline",
     scope: SCOPES, // 🔹 修正したスコープを適用
+    prompt: "consent",
   });
   res.redirect(authUrl);
 });
 // 🔹 Google OAuth 認証後のコールバック
 app.get("/auth/callback", async (req, res) => {
   const code = req.query.code;
+
   if (!code) return res.send("認証コードがありません");
 
   try {
@@ -142,12 +159,77 @@ app.get("/auth/callback", async (req, res) => {
     oauth2Client.setCredentials(tokens);
     console.log("✅ 取得したアクセストークン:", tokens.access_token);
     console.log("✅ 取得したリフレッシュトークン:", tokens.refresh_token);
+    const expiryTime =
+      Date.now() +
+      (tokens.expiry_date
+        ? tokens.expiry_date - Date.now()
+        : tokens.expires_in * 1000);
+    // 🔹 セッションに保存
+    req.session.accessToken = tokens.access_token;
+    req.session.refreshToken = tokens.refresh_token;
+    req.session.tokenExpiry =
+      Date.now() +
+      (tokens.expiry_date
+        ? tokens.expiry_date - Date.now()
+        : tokens.expires_in * 1000);
     // 🔹 トークンをフロントエンドに渡す
-    res.redirect(`http://localhost:5173?token=${tokens.access_token}`);
+    // res.redirect(
+    //   `http://localhost:5173?token=${tokens.access_token}&refreshToken=${
+    //     tokens.refresh_token || ""
+    //   }&expiry=${expiryTime}`
+    // );
+    res.redirect("http://localhost:5173");
   } catch (error) {
     console.error("❌ 認証エラー:", error);
     res.send("認証に失敗しました");
   }
+});
+
+// 🔹 フロントエンドが `access_token` を取得する API
+app.get("/get-token", (req, res) => {
+  console.log("🔍 セッションの状態:", req.session);
+  if (!req.session.accessToken) {
+    return res.status(401).json({ error: "ログインが必要です" });
+  }
+
+  res.json({
+    accessToken: req.session.accessToken,
+    refreshToken: req.session.refreshToken,
+    expiry: req.session.tokenExpiry,
+  });
+});
+
+// 🔹 `refresh_token` を使って `access_token` を更新する API
+app.post("/refresh-token", async (req, res) => {
+  const { refreshToken } = req.body;
+  if (!refreshToken)
+    return res.status(400).json({ error: "リフレッシュトークンがありません" });
+
+  try {
+    oauth2Client.setCredentials({ refresh_token: refreshToken });
+    const { credentials } = await oauth2Client.refreshAccessToken();
+
+    console.log("🔄 新しいアクセストークン:", credentials.access_token);
+    res.json({
+      accessToken: credentials.access_token,
+      expiry: credentials.expiry_date,
+    });
+  } catch (error) {
+    console.error("❌ トークンリフレッシュエラー:", error);
+    res.status(500).json({ error: "トークンの更新に失敗しました" });
+  }
+});
+
+// ログアウト時にセッションを削除
+app.post("/logout", (req, res) => {
+  req.session.destroy((err) => {
+    if (err) {
+      console.error("❌ セッション削除エラー:", err);
+      return res.status(500).json({ error: "ログアウトに失敗しました" });
+    }
+    res.clearCookie("connect.sid"); // 🔹 セッションIDのクッキーを削除
+    res.json({ message: "ログアウト成功" });
+  });
 });
 
 // Google カレンダーに予定を追加
@@ -181,6 +263,7 @@ app.post("/addGoogleCalendar", async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
+
 app.post("/getGoogleCalendarEvents", async (req, res) => {
   const { token } = req.body;
 

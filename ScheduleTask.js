@@ -1,9 +1,12 @@
 import express from "express";
-import session from "express-session";
+// import session from "express-session";
+import cookieParser from "cookie-parser";
 import OpenAI from "openai";
 import { google } from "googleapis";
 import dotenv from "dotenv";
 import cors from "cors";
+import path from "path";
+import { fileURLToPath } from "url";
 
 dotenv.config(); //.envの内容を読み込む
 
@@ -11,24 +14,34 @@ const apiKey = process.env.CHATGPT_KEY;
 const client = new OpenAI({ apiKey: apiKey });
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
+const BASE_URL = "http://localhost:5173";
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 // app.use(cors()); // CORSを有効にする
 app.use(
   cors({
-    origin: "http://localhost:5173", // ✅ クライアントのURLを指定
-    credentials: true, // ✅ セッション維持のため必須
+    origin: `${BASE_URL}`,
+    credentials: true, // クッキーを送受信するために必要
   })
 );
+
+// app.use(
+//   session({
+//     secret: process.env.SESSION_SECRET || "your-secret-key",
+//     resave: false,
+//     saveUninitialized: true,
+//     cookie: {
+//       secure: process.env.NODE_ENV === "production", // 本番環境なら true
+//       httpOnly: true,
+//       sameSite: "None",
+//     },
+//   })
+// );
+
+app.use(cookieParser());
 app.use(express.json());
-app.use(
-  session({
-    secret: process.env.SESSION_SECRET || "your-secret-key",
-    resave: false,
-    saveUninitialized: true,
-    cookie: { secure: false }, // HTTPS 環境なら `true`
-  })
-);
+app.use(express.static(path.join(__dirname, "dist")));
 
 // JSONスキーマ
 const taskOutputSchema = {
@@ -128,7 +141,7 @@ app.post("/predictTaskTime", async (req, res) => {
 });
 
 app.listen(port, () => {
-  console.log(`サーバーが起動しました! http://localhost:${port}`);
+  console.log(`サーバーが起動しました! ${BASE_URL}`);
 });
 const SCOPES = [
   "https://www.googleapis.com/auth/calendar",
@@ -138,7 +151,7 @@ const SCOPES = [
 const oauth2Client = new google.auth.OAuth2(
   process.env.GOOGLE_CLIENT_ID,
   process.env.GOOGLE_CLIENT_SECRET,
-  process.env.GOOGLE_REDIRECT_URI
+  process.env.GOOGLE_REDIRECT_URI || `${BASE_URL}/auth/callback`
 );
 app.get("/auth", (req, res) => {
   const authUrl = oauth2Client.generateAuthUrl({
@@ -164,21 +177,40 @@ app.get("/auth/callback", async (req, res) => {
       (tokens.expiry_date
         ? tokens.expiry_date - Date.now()
         : tokens.expires_in * 1000);
+    const expiryDuration = tokens.expiry_date
+      ? tokens.expiry_date - Date.now()
+      : tokens.expires_in * 1000;
+
+    const isProduction = process.env.NODE_ENV === "production";
+    res.cookie("accessToken", tokens.access_token, {
+      httpOnly: true,
+      secure: isProduction, // 本番環境では `true`（HTTPS 必須）
+      sameSite: isProduction ? "None" : "Lax", // 本番環境では `None`、開発では `Lax`
+      maxAge: expiryDuration,
+    });
+
+    res.cookie("refreshToken", tokens.refresh_token, {
+      httpOnly: true,
+      secure: isProduction, // 本番環境では `true`（HTTPS 必須）
+      sameSite: isProduction ? "None" : "Lax", // 本番環境では `None`、開発では `Lax`
+      maxAge: 60 * 60 * 24 * 30 * 1000, // 30日間
+    });
+
+    res.cookie("expiry", expiryTime, {
+      httpOnly: true,
+      secure: isProduction, // 本番環境では `true`（HTTPS 必須）
+      sameSite: isProduction ? "None" : "Lax", // 本番環境では `None`、開発では `Lax`
+      maxAge: expiryDuration,
+    });
     // 🔹 セッションに保存
-    req.session.accessToken = tokens.access_token;
-    req.session.refreshToken = tokens.refresh_token;
-    req.session.tokenExpiry =
-      Date.now() +
-      (tokens.expiry_date
-        ? tokens.expiry_date - Date.now()
-        : tokens.expires_in * 1000);
-    // 🔹 トークンをフロントエンドに渡す
-    // res.redirect(
-    //   `http://localhost:5173?token=${tokens.access_token}&refreshToken=${
-    //     tokens.refresh_token || ""
-    //   }&expiry=${expiryTime}`
-    // );
-    res.redirect("http://localhost:5173");
+    // req.session.accessToken = tokens.access_token;
+    // req.session.refreshToken = tokens.refresh_token;
+    // req.session.tokenExpiry =
+    //   Date.now() +
+    //   (tokens.expiry_date
+    //     ? tokens.expiry_date - Date.now()
+    //     : tokens.expires_in * 1000);
+    res.redirect(`${BASE_URL}`);
   } catch (error) {
     console.error("❌ 認証エラー:", error);
     res.send("認証に失敗しました");
@@ -187,15 +219,15 @@ app.get("/auth/callback", async (req, res) => {
 
 // 🔹 フロントエンドが `access_token` を取得する API
 app.get("/get-token", (req, res) => {
-  console.log("🔍 セッションの状態:", req.session);
-  if (!req.session.accessToken) {
+  console.log("クッキーの状態:", req.cookies.accessToken);
+  if (!req.cookies.accessToken) {
     return res.status(401).json({ error: "ログインが必要です" });
   }
 
   res.json({
-    accessToken: req.session.accessToken,
-    refreshToken: req.session.refreshToken,
-    expiry: req.session.tokenExpiry,
+    accessToken: req.cookies.accessToken,
+    refreshToken: req.cookies.refreshToken,
+    expiry: req.cookies.expiry,
   });
 });
 
@@ -220,16 +252,28 @@ app.post("/refresh-token", async (req, res) => {
   }
 });
 
-// ログアウト時にセッションを削除
+// ログアウト時にクッキーを削除
 app.post("/logout", (req, res) => {
-  req.session.destroy((err) => {
-    if (err) {
-      console.error("❌ セッション削除エラー:", err);
-      return res.status(500).json({ error: "ログアウトに失敗しました" });
-    }
-    res.clearCookie("connect.sid"); // 🔹 セッションIDのクッキーを削除
-    res.json({ message: "ログアウト成功" });
+  console.log("クッキー削除");
+  const isProduction = process.env.NODE_ENV === "production";
+  res.clearCookie("accessToken", {
+    httpOnly: true,
+    secure: isProduction,
+    sameSite: isProduction ? "None" : "Lax",
   });
+
+  res.clearCookie("refreshToken", {
+    httpOnly: true,
+    secure: isProduction,
+    sameSite: isProduction ? "None" : "Lax",
+  });
+
+  res.clearCookie("expiry", {
+    httpOnly: true,
+    secure: isProduction,
+    sameSite: isProduction ? "None" : "Lax",
+  });
+  res.json({ message: "ログアウト成功" });
 });
 
 // Google カレンダーに予定を追加
@@ -295,4 +339,8 @@ app.post("/getGoogleCalendarEvents", async (req, res) => {
     console.error("❌ Google カレンダーの予定取得エラー:", error);
     res.status(500).json({ error: error.message });
   }
+});
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "dist", "index.html"));
 });

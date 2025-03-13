@@ -58,85 +58,66 @@ var calendarMonth = new Calendar(calendarMonthEl, {
   },
 });
 
+const BASE_URL = "http://localhost:3000";
 document.addEventListener("DOMContentLoaded", async function () {
   calendarMonth.render();
   calendarDay.render();
   const loginButton = document.getElementById("loginButton");
   const userNameElement = document.getElementById("userName");
 
-  // Google OAuth のトークンを取得(ローカルストレージ)
-  const urlParams = new URLSearchParams(window.location.search);
-  let googleToken = localStorage.getItem("googleToken");
-  let refreshToken = localStorage.getItem("refreshToken");
-  let expiryTime = parseInt(localStorage.getItem("expiryTime"), 10);
+  // ✅ サーバーに `httpOnly Cookie` からトークンを取得する
+  try {
+    const response = await fetch(`${BASE_URL}/get-token`, {
+      method: "GET",
+      credentials: "include", // ✅ クッキーを送る
+    });
 
-  // ローカルストレージにない場合はセッションを調べる
-  if (!googleToken || !refreshToken || !expiryTime) {
-    try {
-      const response = await fetch("http://localhost:3000/get-token", {
-        method: "GET",
-        credentials: "include",
-      });
-      if (!response.ok) throw new Error("トークン取得に失敗しました");
+    if (!response.ok) throw new Error("トークン取得に失敗しました");
 
-      const data = await response.json();
-      console.log("✅ 取得したトークン:", data);
+    const data = await response.json();
+    console.log("✅ 取得したトークン:", data);
 
-      localStorage.setItem("googleToken", data.accessToken);
-      localStorage.setItem("refreshToken", data.refreshToken);
-      localStorage.setItem("expiryTime", data.expiry);
-      googleToken = data.accessToken;
-      refreshToken = data.refreshToken;
-      expiryTime = data.expiry;
-    } catch (error) {
-      console.error("❌ トークン取得エラー:", error);
-    }
-  }
-
-  const now = Date.now();
-  console.log("access", googleToken);
-  console.log("refresh", refreshToken);
-  console.log("期限", expiryTime);
-  if (googleToken && expiryTime && now < expiryTime) {
-    // アクセストークンの有効期限が切れていない
-    console.log("✅ Google トークンを検出:", googleToken);
-    userNameElement.textContent = "Google カレンダーと同期中...";
-    await fetchGoogleCalendarEvents(googleToken); // Google カレンダーの予定を取得
-    userNameElement.textContent = "Google カレンダーの予定取得成功";
-  } else if (refreshToken) {
-    // リフレッシュトークンを使ってアクセストークンを更新
-    try {
+    const now = Date.now();
+    const expiryTime = parseInt(data.expiry, 10);
+    console.log("現在時刻:", now);
+    console.log("有効期限:", expiryTime);
+    if (data.accessToken && expiryTime && now < expiryTime) {
+      // アクセストークンの有効期限が切れていない
+      console.log("✅ Google トークンを検出:", data.accessToken);
       userNameElement.textContent = "Google カレンダーと同期中...";
-      const response = await fetch("http://localhost:3000/refresh-token", {
+      await fetchGoogleCalendarEvents(data.accessToken); // Google カレンダーの予定を取得
+      userNameElement.textContent = "Google カレンダーの予定取得成功";
+    } else if (data.refreshToken) {
+      // リフレッシュトークンを使ってアクセストークンを更新
+      userNameElement.textContent = "Google カレンダーと同期中...";
+      const response = await fetch(`${BASE_URL}/refresh-token`, {
         method: "POST",
+        credentials: "include",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ refreshToken }),
+        body: JSON.stringify({ refreshToken: data.refreshToken }),
       });
 
       if (!response.ok) throw new Error("アクセストークンの更新に失敗しました");
 
-      const data = await response.json();
-      console.log("data", data);
-      console.log("✅ 新しいアクセストークン取得:", data.accessToken);
+      const newData = await response.json();
+      console.log("data", newData);
+      console.log("✅ 新しいアクセストークン取得:", newData.accessToken);
 
-      // 🔹 新しい `access_token` と有効期限を保存
-      localStorage.setItem("googleToken", data.accessToken);
-      localStorage.setItem("expiryTime", data.expiry);
-
-      await fetchGoogleCalendarEvents(data.accessToken); // Google カレンダーの予定を取得
+      await fetchGoogleCalendarEvents(newData.accessToken); // Google カレンダーの予定を取得
       userNameElement.textContent = "Google カレンダーの予定取得成功";
-    } catch (error) {
-      console.error("❌ アクセストークンのリフレッシュに失敗:", error);
+    } else {
+      console.log("🔹 Google トークンなし。ログインが必要です。");
+      userNameElement.textContent = "ログインしてください";
     }
-  } else {
-    console.log("🔹 Google トークンなし。ログインが必要です。");
-    userNameElement.textContent = "ログインしてください";
+  } catch (error) {
+    console.error("❌ トークン取得エラー:", error);
   }
 
   // ログインボタンクリック
   loginButton.addEventListener("click", () => {
-    // バックエンド(ScheduleTask.mjs)でログイン処理→セッションに保存
-    window.location.href = "http://localhost:3000/auth";
+    console.log("🔑 ログインボタンクリック");
+    // バックエンド(ScheduleTask.js)でログイン処理→セッションに保存
+    window.location.href = `${BASE_URL}/auth`;
   });
 
   // ユーザーのログアウト
@@ -144,18 +125,11 @@ document.addEventListener("DOMContentLoaded", async function () {
     .getElementById("sign-out-button")
     .addEventListener("click", async () => {
       try {
-        // ローカルストレージからトークンを削除
-        localStorage.removeItem("googleToken"); // ✅ Google API トークンも削除
-        localStorage.removeItem("refreshToken");
-        localStorage.removeItem("expiryTime");
-
-        // 🔹 サーバー側のセッションを削除
-        await fetch("http://localhost:3000/logout", {
+        // 🔹 サーバー側のクッキーを削除
+        await fetch(`${BASE_URL}/logout`, {
           method: "POST",
-          credentials: "include", // セッションを送信
+          credentials: "include",
         });
-        // URLからクエリパラメータを削除
-        //window.history.replaceState({}, document.title, "/");
         window.location.href = "https://accounts.google.com/logout";
         console.log("✅ ログアウトしました");
         window.location.reload(); // ページをリロード
@@ -164,6 +138,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       }
     });
 });
+
 // AIの回答をカレンダーに追加（main.jsで使用）
 export function addEventToCalendar(taskData) {
   taskData.tasks.forEach((task, index) => {
@@ -201,14 +176,11 @@ async function fetchGoogleCalendarEvents(googleToken) {
   }
 
   try {
-    const response = await fetch(
-      "http://localhost:3000/getGoogleCalendarEvents",
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ token: googleToken }),
-      }
-    );
+    const response = await fetch(`${BASE_URL}/getGoogleCalendarEvents`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ token: googleToken }),
+    });
 
     const data = await response.json();
     if (data.events) {
